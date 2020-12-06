@@ -25,9 +25,33 @@ import actionlib.msg
 import exp_assignment2.msg
 
 
+def dog(target):
+    # Creates the SimpleActionClient, passing the type of the action
+    # (FibonacciAction) to the constructor.
+    client = actionlib.SimpleActionClient(
+        '/robot_reaching_goal', exp_assignment2.msg.PlanningAction)
 
+    # Waits until the action server has started up and started
+    # listening for goals.
+    client.wait_for_server()
+
+    # Creates a goal to send to the action server.
+    goal = exp_assignment2.msg.PlanningGoal()
+    goal.target_pose.pose.position.x = target[0]  # random.randrange(0, 9)
+    goal.target_pose.pose.position.y = target[1]  # random.randrange(0, 9)
+    goal.target_pose.pose.position.z = target[2]  # -1
+
+    # Sends the goal to the action server.
+    client.send_goal(goal)
+
+    # Waits for the server to finish performing the action.
+    client.wait_for_result()
+
+    return client.get_result()
 
 # Sleep state of the smach machine.
+
+
 class MIRO_Sleep(smach.State):
 
     # Init function for smach machine sleep state.
@@ -41,12 +65,7 @@ class MIRO_Sleep(smach.State):
     # @return c: command to switch between states.
     def execute(self, userdata):
 
-        # Give command home
-        sleep_command = 'go_home'
-
-        # Publish sleep command
-        pub.publish(sleep_command)
-        time.sleep(4)
+        dog([1, 1, 0])
 
         # Change state
         c = 'normal_command'
@@ -63,35 +82,12 @@ class MIRO_Normal(smach.State):
         smach.State.__init__(self,
                              outcomes=['sleep_command', 'play_command'])
 
-    # Smach machine state normal actions:
-    # Listens to user: if user says "Play" or "Hey buddy" it outputs command to enter play state.
-    # If user says nothing, it goes to random positions for a while (n loops) then outputs command to enter sleep state.
-    # @return c: command to switch between states.
     def execute(self, userdata):
 
-        # Set state parameter
-        rospy.set_param('state', 'NORMAL')
+        dog = ([random.randrange(0, 11), random.randrange(0, 11), 0])
+        c = 'sleep_command'
+        return c
 
-        for i in range(0, LOOPS):
-
-            # Checks if user is speaking
-
-            # If "ball" is calling MIRO, enter play state
-
-            # Else wander around
-            else:
-                normal_command = 'go_rand'
-
-                # Publish normal command
-                pub.publish(normal_command)
-                time.sleep(3)
-
-            # Randomly decide to sleep, enter sleep state
-            if random.randrange(0, 5) == 1:
-                c = 'sleep_command'
-                return c
-
-        return 'sleep_command'
 
 # Play state of the smach machine.
 
@@ -104,22 +100,10 @@ class MIRO_Play(smach.State):
         smach.State.__init__(self,
                              outcomes=['normal_command'])
 
-    # Smach machine state play actions:
-    # Looks at user, saves his coordinates as next position, publishes them (goes toward the human).
-    # It then listens to the user. If user says "go to posx posy", publishes the coordinates (goes to the point).
-    # If user says "Hey buddy" or "Play" it waits. If user says nothing, it looks for the user gesture to go somewhere,
-    # and publishes the coordinate he receives (goes to the point).
-    # This repeates for a while (n loops) then the robot enters normal state again.
-    # @return c: command to switch between states.
     def execute(self, userdata):
 
         # Set state parameter
         rospy.set_param('state', 'PLAY STATE')
-
-        for i in range(0, LOOPS):
-
-            # Look for ball
-            # Go to ball
 
         c = 'normal_command'
         return c
@@ -131,11 +115,6 @@ class MIRO_Play(smach.State):
 def main():
 
     rospy.init_node('state_manager')
-
-    # Set parameters
-    # Home position
-    rospy.set_param('home_posx', 3)
-    rospy.set_param('home_posy', 3)
 
     # Create a SMACH state machine
     sm = smach.StateMachine(outcomes=['container_interface'])

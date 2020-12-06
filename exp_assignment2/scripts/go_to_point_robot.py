@@ -118,43 +118,6 @@ def go_straight_ahead(des_pos):
         change_state(2)
 
 
-'''
-def go_straight_ahead(des_pos):
-    global pub, state_, z_back
-    err_pos = math.sqrt(pow(des_pos.y - position_.y, 2) +
-                        pow(des_pos.x - position_.x, 2))
-
-    if des_pos.z != z_back:
-        link_state_msg = LinkState()
-        link_state_msg.link_name = "link_chassis"
-        link_state_msg.pose.position.x = position_.x
-        link_state_msg.pose.position.y = position_.y
-        link_state_msg.pose.position.z = des_pos.z
-        z_back = des_pos.z
-        pubz.publish(link_state_msg)
-
-    if err_pos > dist_precision_:
-        twist_msg = Twist()
-        twist_msg.linear.x = kp_d * (des_pos.x-position_.x)
-        if twist_msg.linear.x > ub_d:
-            twist_msg.linear.x = ub_d
-        elif twist_msg.linear.x < -ub_d:
-            twist_msg.linear.x = -ub_d
-
-        twist_msg.linear.y = kp_d * (des_pos.y-position_.y)
-        if twist_msg.linear.y > ub_d:
-            twist_msg.linear.y = ub_d
-        elif twist_msg.linear.y < -ub_d:
-            twist_msg.linear.y = -ub_d
-
-        pub.publish(twist_msg)
-
-    else:
-        print('Position error: [%s]' % err_pos)
-        change_state(2)
-'''
-
-
 def done():
     twist_msg = Twist()
     twist_msg.linear.x = 0
