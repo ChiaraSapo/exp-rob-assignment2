@@ -3,6 +3,7 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Point, Pose
+from std_msgs.msg import UInt32
 from nav_msgs.msg import Odometry
 from gazebo_msgs.msg import LinkState
 from tf import transformations
@@ -168,6 +169,7 @@ def planning(goal):
         rate.sleep()
     if success:
         rospy.loginfo('Goal: Succeeded!')
+        result = 1
         act_s.set_succeeded(result)
 
 
