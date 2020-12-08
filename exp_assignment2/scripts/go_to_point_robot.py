@@ -115,7 +115,7 @@ def go_straight_ahead(des_pos):
     # state change conditions
     if math.fabs(err_yaw) > yaw_precision_:
         print('Yaw error: [%s]' % err_yaw)
-        change_state(2)
+        change_state(0)
 
 
 def done():

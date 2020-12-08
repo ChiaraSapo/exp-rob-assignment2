@@ -102,9 +102,6 @@ class MIRO_Play(smach.State):
 
     def execute(self, userdata):
 
-        # Set state parameter
-        rospy.set_param('state', 'PLAY STATE')
-
         c = 'normal_command'
         return c
 
