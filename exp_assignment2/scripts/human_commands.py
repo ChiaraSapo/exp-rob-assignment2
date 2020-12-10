@@ -27,8 +27,8 @@ def human_client():
 
     # Creates a goal to send to the action server.
     goal = exp_assignment2.msg.PlanningGoal()
-    goal.target_pose.pose.position.x = random.randrange(0, 9)
-    goal.target_pose.pose.position.y = random.randrange(0, 9)
+    goal.target_pose.pose.position.x = -5  # random.randrange(0, 9)
+    goal.target_pose.pose.position.y = 0  # random.randrange(0, 9)
     goal.target_pose.pose.position.z = 0
 
     # Sends the goal to the action server.
@@ -46,7 +46,7 @@ def main():
 
     while True:
         human_client()
-        time.sleep(10)
+        time.sleep(20)
 
 
 if __name__ == '__main__':
