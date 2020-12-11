@@ -23,25 +23,38 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 
 VERBOSE = False
+global counter
+global subscriberPlay
+
+
+def callback(ros_data):
+
+    image_feature()
 
 
 class image_feature:
 
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
-        rospy.init_node('image_feature', anonymous=True)
+
      # topic where we publish
         self.image_pub = rospy.Publisher("/output/image_raw/compressed",
                                          CompressedImage, queue_size=1)
         self.vel_pub = rospy.Publisher("cmd_vel",
                                        Twist, queue_size=1)
-        #self.camera_pub = rospy.Publisher("/head_position_controller/command", Float64, queue_size=1)
+        self.camera_pub = rospy.Publisher(
+            "joint_position_controller/command", Float64, queue_size=1)
 
         # subscribed Topic
         self.subscriber = rospy.Subscriber("camera1/image_raw/compressed",
                                            CompressedImage, self.callback,  queue_size=1)
 
     def callback(self, ros_data):
+        global counter
+        counter = rospy.get_param('counter')
+        while counter == 5:
+            time.sleep(1)
+
         '''Callback function of subscribed topic. 
         Here images get converted and features detected'''
         if VERBOSE:
@@ -64,13 +77,13 @@ class image_feature:
                                 cv2.CHAIN_APPROX_SIMPLE)
         cnts = imutils.grab_contours(cnts)
         center = None
-        
+
         # only proceed if at least one contour was found
         if len(cnts) > 0:
             # find the largest contour in the mask, then use
             # it to compute the minimum enclosing circle and
             # centroid
-            
+
             c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
             M = cv2.moments(c)
@@ -84,12 +97,19 @@ class image_feature:
                            (0, 255, 255), 2)
                 cv2.circle(image_np, center, 5, (0, 0, 255), -1)
                 vel = Twist()
-                
+
                 vel.angular.z = -0.002*(center[0]-400)
                 vel.linear.x = -0.01*(radius-100)
                 self.vel_pub.publish(vel)
-                #vel_camera = vel.angular.z
-                # self.camera_pub.publish(vel_camera)
+                if vel.linear.x <= 0.1:
+                    # Rotate camera
+                    vel_camera = Float64()
+                    vel_camera.data = 0.0
+                    while vel_camera.data < 2:  # to check
+                        rospy.loginfo('rotate camera')
+                        vel_camera.data = vel_camera.data + 0.1
+                        self.camera_pub.publish(vel_camera)
+
             else:
                 vel = Twist()
                 vel.linear.x = 0.5
@@ -99,6 +119,8 @@ class image_feature:
             vel = Twist()
             vel.angular.z = 0.5
             self.vel_pub.publish(vel)
+            counter = counter+1
+            rospy.set_param('counter', counter)
 
         cv2.imshow('window', image_np)
         cv2.waitKey(2)
@@ -108,7 +130,10 @@ class image_feature:
 
 def main(args):
     '''Initializes and cleanup ros node'''
-    ic = image_feature()
+    rospy.init_node('image_feature', anonymous=True)
+
+    subscriberPlay = rospy.Subscriber("tempPlay",
+                                      Float64, callback,  queue_size=1)
     try:
         rospy.spin()
     except KeyboardInterrupt:

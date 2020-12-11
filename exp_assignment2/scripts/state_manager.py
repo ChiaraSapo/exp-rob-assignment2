@@ -48,6 +48,9 @@ vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=1)
 camera_pub = rospy.Publisher(
     "/head_position_controller/command", Float64, queue_size=1)
 
+pub = rospy.Publisher(
+    "tempPlay", Float64, queue_size=1)
+
 
 def callbackNORM(ros_data):
     global subscriberNORM
@@ -106,6 +109,7 @@ def callbackNORM(ros_data):
 
 def callbackPLAY(ros_data):
     global subscriberPLAY
+    rospy.loginfo('entered PLAY img fnct')
 
     vel_Play = Twist()
     vel_Play.linear.x = 0
@@ -190,6 +194,7 @@ def callbackPLAY(ros_data):
         vel_Play.linear.x = 0
         vel_Play.angular.z = 0
         vel_pub.publish(vel_Play)
+        rospy.set_param('counter', 1)
         subscriberPLAY.unregister()
 
     cv2.imshow('window', image_np)
@@ -313,12 +318,18 @@ class MIRO_Play(smach.State):
         global subscriberPLAY
         time.sleep(3)
         rospy.loginfo('play: chase ball')
-        subscriberPLAY = rospy.Subscriber("camera1/image_raw/compressed",
-                                          CompressedImage, callbackPLAY,  queue_size=1)
-        while rospy.get_param('camera_turns') == 0:
-            time.sleep(1)
 
-        rospy.set_param('camera_turns', 0)
+        pub.publish(1)
+
+        #subscriberPLAY = rospy.Subscriber("camera1/image_raw/compressed", CompressedImage, callbackPLAY,  queue_size=1)
+        while rospy.get_param('counter') == 0:
+            time.sleep(1)
+        if rospy.get_param('counter') == 5:
+            return 'normal_command'
+
+        rospy.set_param('counter', 0)
+
+        time.sleep(4)
 
         c = 'normal_command'
         return c
@@ -332,7 +343,7 @@ def main():
     rospy.init_node('state_manager')
 
     rospy.set_param('ball', 2)
-    rospy.set_param('camera_turns', 0)
+    rospy.set_param('counter', 0)
 
     time.sleep(3)
 
