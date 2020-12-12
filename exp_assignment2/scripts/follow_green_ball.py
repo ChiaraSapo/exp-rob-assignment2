@@ -30,6 +30,8 @@ global subscriberPlay
 def callback(ros_data):
 
     image_feature()
+    if rospy.get_param('counter') == 5:
+        subscriberPLAY.unregister()
 
 
 class image_feature:
@@ -104,11 +106,19 @@ class image_feature:
                 if vel.linear.x <= 0.1:
                     # Rotate camera
                     vel_camera = Float64()
-                    vel_camera.data = 0.0
-                    while vel_camera.data < 2:  # to check
+                    vel_camera.data = 0
+                    for i in range(0, 7):  # to check
                         rospy.loginfo('rotate camera')
                         vel_camera.data = vel_camera.data + 0.1
                         self.camera_pub.publish(vel_camera)
+                        time.sleep(1)
+                    '''
+                    for i in range(0, 14):
+                        rospy.loginfo('rotate camera')
+                        vel_camera.data = vel_camera.data-0.1
+                        self.camera_pub.publish(vel_camera)
+                        time.sleep(1)
+                        '''
 
             else:
                 vel = Twist()
@@ -121,11 +131,10 @@ class image_feature:
             self.vel_pub.publish(vel)
             counter = counter+1
             rospy.set_param('counter', counter)
+            rospy.loginfo('counter incremented')
 
         cv2.imshow('window', image_np)
         cv2.waitKey(2)
-
-        # self.subscriber.unregister()
 
 
 def main(args):

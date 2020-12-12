@@ -54,6 +54,7 @@ pub = rospy.Publisher(
 
 def callbackNORM(ros_data):
     global subscriberNORM
+    time.sleep(1)
 
     vel_Norm = Twist()
     vel_Norm.linear.x = 0
@@ -85,6 +86,7 @@ def callbackNORM(ros_data):
     if len(cnts) > 0:
         rospy.loginfo('img NORM fnct: ball')
         rospy.set_param('ball', 1)
+        time.sleep(1)
         subscriberNORM.unregister()
 
     else:
@@ -100,10 +102,12 @@ def callbackNORM(ros_data):
             if len(cnts) > 0:
                 rospy.loginfo('img NORM fnct: ball after turning')
                 rospy.set_param('ball', 1)
+                time.sleep(1)
                 subscriberNORM.unregister()
 
         rospy.loginfo('img NORM fnct: no ball')
         rospy.set_param('ball', 0)
+        time.sleep(1)
         subscriberNORM.unregister()
 
 
@@ -266,7 +270,7 @@ class MIRO_Normal(smach.State):
             # Go rand (then set rand)
             time.sleep(3)
             rospy.loginfo('normal: going rand')
-            dog([-5, 5, 0])
+            #dog([-5, 5, 0])
 
             # Look for ball
             time.sleep(3)
@@ -275,7 +279,7 @@ class MIRO_Normal(smach.State):
                                               CompressedImage, callbackNORM,  queue_size=1)
 
             while rospy.get_param('ball') == 2:
-                time.sleep(1)
+                time.sleep(0.5)
 
             ball = rospy.get_param('ball')
             rospy.set_param('ball', 2)
