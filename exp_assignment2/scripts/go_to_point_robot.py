@@ -40,7 +40,7 @@ pubz = None
 act_s = None
 
 
-# Read odometry
+# Function to read odometry
 def clbk_odom(msg):
     global position_
     global pose_
@@ -59,17 +59,22 @@ def clbk_odom(msg):
     euler = transformations.euler_from_quaternion(quaternion)
     yaw_ = euler[2]
 
+# Function to change state
+
 
 def change_state(state):
     global state_
     state_ = state
-    #print('State changed to [%s]' % state_)
+
+# Function to normalize an angle
 
 
 def normalize_angle(angle):
     if(math.fabs(angle) > math.pi):
         angle = angle - (2 * math.pi * angle) / (math.fabs(angle))
     return angle
+
+# Function to fix the yaw angle
 
 
 def fix_yaw(des_pos):
@@ -89,8 +94,9 @@ def fix_yaw(des_pos):
 
     # state change conditions
     if math.fabs(err_yaw) <= yaw_precision_2_:
-        #print('Yaw error: [%s]' % err_yaw)
         change_state(1)
+
+# Function to perform a straight motion
 
 
 def go_straight_ahead(des_pos):
@@ -110,15 +116,14 @@ def go_straight_ahead(des_pos):
         twist_msg.angular.z = kp_a*err_yaw
         pub.publish(twist_msg)
     else:
-        #print('Position error: [%s]' % err_pos)
         change_state(2)
 
     # state change conditions
     if math.fabs(err_yaw) > yaw_precision_:
-        #print('Yaw error: [%s]' % err_yaw)
         change_state(0)
 
 
+# Function to stop the robot
 def done():
     twist_msg = Twist()
     twist_msg.linear.x = 0
@@ -126,6 +131,7 @@ def done():
     pub.publish(twist_msg)
 
 
+# Function that implements a simple motion planning algorithm for the robot
 def planning(goal):
 
     global state_, desired_position_
@@ -172,13 +178,21 @@ def planning(goal):
         result = 1
         act_s.set_succeeded(result)
 
+# Ros node that subscribes to odom and creates a simple actionlib server to move the robot
+
 
 def main():
     global pub, active_, act_s
     rospy.init_node('robot_go_to_point')
+
+    # Init publishers
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
     pubz = rospy.Publisher('/gazebo/set_link_state', LinkState, queue_size=1)
+
+    # Subscribe to odom
     sub_odom = rospy.Subscriber('odom', Odometry, clbk_odom)
+
+    # Init server
     act_s = actionlib.SimpleActionServer(
         '/robot_reaching_goal',  exp_assignment2.msg.PlanningAction, planning, auto_start=False)
     act_s.start()

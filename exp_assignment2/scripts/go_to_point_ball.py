@@ -37,7 +37,8 @@ pubz = None
 # action_server
 act_s = None
 
-# callbacks
+
+# Function to read odometry
 
 
 def clbk_odom(msg):
@@ -49,11 +50,14 @@ def clbk_odom(msg):
     position_ = msg.pose.pose.position
     pose_ = msg.pose.pose
 
+# Function to change state
+
 
 def change_state(state):
     global state_
     state_ = state
-    print('State changed to [%s]' % state_)
+
+# Function to perform a straight motion
 
 
 def go_straight_ahead(des_pos):
@@ -87,10 +91,10 @@ def go_straight_ahead(des_pos):
         pub.publish(twist_msg)
 
     else:
-        print('Position error: [%s]' % err_pos)
         change_state(1)
 
 
+# Function to stop the ball
 def done():
     twist_msg = Twist()
     twist_msg.linear.x = 0
@@ -98,6 +102,7 @@ def done():
     pub.publish(twist_msg)
 
 
+# Function that implements a simple motion planning algorithm for the robot
 def planning(goal):
 
     global state_, desired_position_
@@ -136,16 +141,24 @@ def planning(goal):
 
         rate.sleep()
     if success:
-        rospy.loginfo('Goal: Succeeded!')
         act_s.set_succeeded(result)
+
+# Ros node that subscribes to odom and creates a simple actionlib server to move the ball
 
 
 def main():
+
     global pub, active_, act_s, pubz
     rospy.init_node('go_to_point')
+
+    # Init publishers
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
     pubz = rospy.Publisher('/gazebo/set_link_state', LinkState, queue_size=1)
+
+    # Subscribe to odom
     sub_odom = rospy.Subscriber('odom', Odometry, clbk_odom)
+
+    # Init server
     act_s = actionlib.SimpleActionServer(
         '/reaching_goal', exp_assignment2.msg.PlanningAction, planning, auto_start=False)
     act_s.start()

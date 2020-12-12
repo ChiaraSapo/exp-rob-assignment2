@@ -25,13 +25,14 @@ from std_msgs.msg import Float64
 VERBOSE = False
 global counter
 global subscriberPlay
+vel_camera = Float64()
 
 
 def callback(ros_data):
 
     image_feature()
-    if rospy.get_param('counter') == 5:
-        subscriberPLAY.unregister()
+    # if rospy.get_param('counter') == 5:
+    #    subscriberPLAY.unregister()
 
 
 class image_feature:
@@ -42,17 +43,18 @@ class image_feature:
      # topic where we publish
         self.image_pub = rospy.Publisher("/output/image_raw/compressed",
                                          CompressedImage, queue_size=1)
-        self.vel_pub = rospy.Publisher("cmd_vel",
+        self.vel_pub = rospy.Publisher("/robot/cmd_vel",
                                        Twist, queue_size=1)
         self.camera_pub = rospy.Publisher(
-            "joint_position_controller/command", Float64, queue_size=1)
+            "/robot/joint_position_controller/command", Float64, queue_size=1)
 
         # subscribed Topic
-        self.subscriber = rospy.Subscriber("camera1/image_raw/compressed",
+        self.subscriber = rospy.Subscriber("/robot/camera1/image_raw/compressed",
                                            CompressedImage, self.callback,  queue_size=1)
 
     def callback(self, ros_data):
         global counter
+        global vel_camera
         counter = rospy.get_param('counter')
         while counter == 5:
             time.sleep(1)
@@ -103,22 +105,38 @@ class image_feature:
                 vel.angular.z = -0.002*(center[0]-400)
                 vel.linear.x = -0.01*(radius-100)
                 self.vel_pub.publish(vel)
-                if vel.linear.x <= 0.1:
+
+                while vel.linear.x <= 0.01:
+                    vel.angular.z = 0
+                    vel.linear.x = 0
+                    self.vel_pub.publish(vel)
+
+                    rospy.loginfo('rotating camera')
                     # Rotate camera
-                    vel_camera = Float64()
+
                     vel_camera.data = 0
-                    for i in range(0, 7):  # to check
-                        rospy.loginfo('rotate camera')
+                    # rotate head
+                    while vel_camera.data < 1.56:  # head turns left
                         vel_camera.data = vel_camera.data + 0.1
                         self.camera_pub.publish(vel_camera)
                         time.sleep(1)
-                    '''
-                    for i in range(0, 14):
-                        rospy.loginfo('rotate camera')
-                        vel_camera.data = vel_camera.data-0.1
+                    time.sleep(5)
+
+                    while vel_camera.data > 0:  # head turns right
+                        vel_camera.data = vel_camera.data - 0.1
                         self.camera_pub.publish(vel_camera)
                         time.sleep(1)
-                        '''
+                    time.sleep(5)
+                    while vel_camera.data > -1.56:  # head turns right
+                        vel_camera.data = vel_camera.data - 0.1
+                        self.camera_pub.publish(vel_camera)
+                        time.sleep(1)
+                    time.sleep(5)
+                    while vel_camera.data < 0:  # head turns left
+                        vel_camera.data = vel_camera.data + 0.1
+                        self.camera_pub.publish(vel_camera)
+                        time.sleep(1)
+                    time.sleep(5)
 
             else:
                 vel = Twist()

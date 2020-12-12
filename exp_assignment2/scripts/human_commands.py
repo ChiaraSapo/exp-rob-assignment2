@@ -12,12 +12,12 @@ import actionlib.msg
 import exp_assignment2.msg
 import rospy
 import time
-#from __future__ import print_function
+
+# This function implements a client for the ball motion server.
 
 
 def human_client():
-    # Creates the SimpleActionClient, passing the type of the action
-    # (FibonacciAction) to the constructor.
+
     client = actionlib.SimpleActionClient(
         '/reaching_goal', exp_assignment2.msg.PlanningAction)
 
@@ -30,7 +30,7 @@ def human_client():
     goal.target_pose.pose.position.x = -5  # random.randrange(0, 9)
     goal.target_pose.pose.position.y = random.choice(
         [0, 1, -1])  # random.randrange(0, 9)
-    goal.target_pose.pose.position.z = 0
+    goal.target_pose.pose.position.z = 0  # random.choice([0, 10])
 
     # Sends the goal to the action server.
     client.send_goal(goal)
@@ -40,6 +40,8 @@ def human_client():
 
     return client.get_result()
 
+# Ros node that calls the client for the ball motion server
+
 
 def main():
 
@@ -47,7 +49,7 @@ def main():
 
     while True:
         human_client()
-        time.sleep(20)
+        time.sleep(6)
 
 
 if __name__ == '__main__':
