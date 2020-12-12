@@ -16,27 +16,29 @@ The dog has two wheels, a castor wheel, a fixed neck, a head able to rotate arou
   <img height="500" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-26-24.png?raw=true "Title"">
 </p>
 
+## Python files 
 
-
-go_to_point_ball.py
+### go_to_point_ball.py
 Ros node that implements an actionlib server to move the ball.
 
-go_to_point_robot.py
+### go_to_point_robot.py
 Ros node that implements an actionlib server to move the robot.
 
-human_commands.py
+### human_commands.py
 Ros node that implements an actionlib clientto move the ball.
 
-state_manager.py
+### state_manager.py
 Ros node that implements a smach state machine with three different states. 
 Sleep: the dog goes to its kennel in position [0,0,0] and stays there for a while. Then there is a state transition to'normal'. 
 Normal: the dog goes to a random position, then looks around. If it sees the ball, it enters in play state. If it doesn't see it, it goes to another random position. After a while, if nothing has happened, it goes in sleep state.
 Play: the dog follows the ball around until it can't be seen anymore, the the state transitions to normal.
 
-Internal classes and functions:
-class image_feature
+#### Internal classes and functions:
+- class find_follow_ball
 <p align="center">
   <img height="500" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-26-38.png?raw=true "Title"">
 </p>
 
+- function find_ball
+- function move_dog
 
