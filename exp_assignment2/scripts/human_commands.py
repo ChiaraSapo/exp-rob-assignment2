@@ -27,10 +27,10 @@ def human_client():
 
     # Creates a goal to send to the action server.
     goal = exp_assignment2.msg.PlanningGoal()
-    goal.target_pose.pose.position.x = -5  # random.randrange(0, 9)
+    goal.target_pose.pose.position.x = -5  # random.randrange(0, 9)  # -5
     goal.target_pose.pose.position.y = random.choice(
         [0, 1, -1])  # random.randrange(0, 9)
-    goal.target_pose.pose.position.z = 0  # random.choice([0, 10])
+    goal.target_pose.pose.position.z = random.choice([0, 1, 10])
 
     # Sends the goal to the action server.
     client.send_goal(goal)
@@ -49,7 +49,7 @@ def main():
 
     while True:
         human_client()
-        time.sleep(6)
+        time.sleep(10)
 
 
 if __name__ == '__main__':
