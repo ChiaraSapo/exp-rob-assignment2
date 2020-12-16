@@ -73,7 +73,7 @@ This is a callback function to the normal state's subscriber to the camera image
 - function move_dog
 This function implements a client to move the dog to desired location. It has as input the desired location and as output the result of the action.
 
-## Instalation and running procedure:
+# Instalation and running procedure:
 Download the package in your_catkin_ws/src folder. To install it:
 ```sh
 cd "Your catkin workspace"/src/exp_assignment2
@@ -84,3 +84,9 @@ To run it:
 ```sh
 roslaunch exp_assignment2 gazebo_world.launch
 ```
+
+# System limitations
+The robot moves very slowly.
+Sometimes ball moves in front of the dog exactly when image function is looking for it and the robot doesn't see it.
+When camera rotates, the opencv window freezes until rotation is complete. It also happens in switching from play to normal.
+For testing purposes, the ball moves along line x=-5 and robot moves only in (5,-5,0) when it is in normal state. 
