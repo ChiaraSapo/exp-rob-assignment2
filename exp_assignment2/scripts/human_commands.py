@@ -27,9 +27,16 @@ def human_client():
 
     # Creates a goal to send to the action server.
     goal = exp_assignment2.msg.PlanningGoal()
-    goal.target_pose.pose.position.x = -5  # random.randrange(0, 9)  # -5
-    goal.target_pose.pose.position.y = random.choice(
-        [0, 1, -1])  # random.randrange(0, 9)
+    '''
+    rospy.loginfo('print x')
+    in1 = int(input())
+    rospy.loginfo('print y')
+    in2 = int(input())
+    rospy.loginfo('print z')
+    in3 = int(input())
+    '''
+    goal.target_pose.pose.position.x = random.randrange(0, 9)
+    goal.target_pose.pose.position.y = random.randrange(0, 9)
     goal.target_pose.pose.position.z = random.choice([0, 1, 10])
 
     # Sends the goal to the action server.

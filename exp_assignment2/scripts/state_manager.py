@@ -63,7 +63,7 @@ def find_ball(ros_data):
     vel_Norm.angular.y = 0
     vel_Norm.angular.z = 0
 
-    #rospy.loginfo('entered img NORM fnct')
+    # rospy.loginfo('entered img NORM fnct')
 
     # Convert to cv2
     np_arr = np.fromstring(ros_data.data, np.uint8)
@@ -151,7 +151,6 @@ class find_and_follow_ball:
 
         # Read counter ros parameter: proceed only if it's not max
         counter = rospy.get_param('counter')
-        # and rospy.get_param('go_on_playing', 0):
         while counter == MAX_COUNTER:
             time.sleep(1)
 
@@ -203,8 +202,8 @@ class find_and_follow_ball:
                 self.vel_pub.publish(vel_Play)
 
                 # When robot has arrived: turn head
-                if vel_Play.linear.x <= 0.05:
-                    #rospy.loginfo('robot has arrived')
+                if vel_Play.linear.x <= 0.05 and vel_Play.angular.z <= 0.05:
+
                     # Stop robot completely
                     vel_Play.angular.z = 0
                     vel_Play.linear.x = 0
@@ -212,9 +211,6 @@ class find_and_follow_ball:
 
                     # Rotate camera
                     rospy.set_param('rotate_camera', 1)
-                    # Wait before playing
-                    #rospy.set_param('go_on_playing', 0)
-                    time.sleep(8)
 
             # Go near ball
             else:
@@ -223,19 +219,22 @@ class find_and_follow_ball:
                 self.vel_pub.publish(vel_Play)
 
         # Look for ball by turning on the spot
-        elif len(cnts) <= 0 and counter != MAX_COUNTER:
+        else:
             vel_Play = Twist()
             vel_Play.angular.z = 0.5
             self.vel_pub.publish(vel_Play)
+
             # Increase counter of iterations without seeing the ball
             counter = counter+1
             rospy.set_param('counter', counter)
             time.sleep(1)
             rospy.loginfo('counter incremented')
 
-        if counter == MAX_COUNTER:
-            vel_Play.angular.z = 0
-            self.vel_pub.publish(vel_Play)
+            # If counter is max: stop
+            if counter == MAX_COUNTER:
+                vel_Play.angular.z = 0
+                self.vel_pub.publish(vel_Play)
+                self.subscriber.unregister()  # JUST ADDED
 
         # Show camera image
         cv2.imshow('window', image_np)
@@ -290,7 +289,7 @@ class MIRO_Sleep(smach.State):
         # Go home and sleep
         time.sleep(3)
         rospy.loginfo('sleep: go home')
-        #move_dog([0, 0, 0])
+        move_dog([0, 0, 0])
         time.sleep(5)
 
         # Change state
@@ -333,20 +332,18 @@ class MIRO_Normal(smach.State):
                                               CompressedImage, find_ball,  queue_size=1)
 
             while rospy.get_param('ball') == 2:
-                time.sleep(0.5)
+                time.sleep(1)
 
             ball = rospy.get_param('ball')
             rospy.set_param('ball', 2)
 
             # Case 0: no ball --> continue in normal state
             if ball == 0:
-                time.sleep(3)
                 rospy.loginfo(
                     'normal: i see no ball, i will continue doing my things')
 
             # Case 1: ball --> go in play state
             elif ball == 1:
-                time.sleep(3)
                 rospy.loginfo(
                     'normal: i do see ball, i will chase it: set play')
 
@@ -376,8 +373,9 @@ class MIRO_Play(smach.State):
         self.camera_pub = rospy.Publisher("/robot/joint_position_controller/command",
                                           Float64, queue_size=1)
 
-    # Smach machine state play actions: find and follow the ball. If robot reaches the ball and stops: rotate camera.
-    # If robot can not see ball for a while (counter=MAX_COUNTER): switch to normal state
+    # Smach machine state play actions: find and follow the ball.
+    # If robot reaches the ball and stops: rotate camera.
+    # If robot can not see ball for a while (counter=MAX_COUNTER): switch to normal state.
     def execute(self, userdata):
 
         global subscriberPLAY
@@ -388,11 +386,16 @@ class MIRO_Play(smach.State):
 
         # Find and follow green ball
         ic = find_and_follow_ball()
+        rotated = 0
 
         while rospy.get_param('counter') < MAX_COUNTER:
-            # Exit if counter is max (makes no sense, could put < in the while, but it didn't work...)
-            # if rospy.get_param('counter') == MAX_COUNTER:
-            #    break
+            '''
+            time.sleep(3)
+            if rotated == 1:
+                time.sleep(10)
+
+            rotated = 0
+            '''
 
             if rospy.get_param('rotate_camera') == 1:
 
@@ -400,36 +403,35 @@ class MIRO_Play(smach.State):
                 vel_camera.data = 0
 
                 # Turn head left
-                while vel_camera.data < 1.50:
+                while vel_camera.data < 0.5:
                     vel_camera.data = vel_camera.data + 0.1
                     self.camera_pub.publish(vel_camera)
-                    time.sleep(0.5)
+                    time.sleep(1)
 
                 # Turn head to center
                 while vel_camera.data > 0.01:
                     vel_camera.data = vel_camera.data - 0.1
                     self.camera_pub.publish(vel_camera)
-                    time.sleep(0.5)
+                    time.sleep(1)
 
                 # Turn head right
-                while vel_camera.data > -1.50:
+                while vel_camera.data > 0.5:
                     vel_camera.data = vel_camera.data - 0.1
                     self.camera_pub.publish(vel_camera)
-                    time.sleep(0.5)
+                    time.sleep(1)
 
                 # Turn head to center
                 while vel_camera.data < 0.01:
                     vel_camera.data = vel_camera.data + 0.1
                     self.camera_pub.publish(vel_camera)
-                    time.sleep(0.5)
+                    time.sleep(1)
 
                 # Rotation finished
                 rospy.set_param('rotate_camera', 0)
 
-                time.sleep(10)
+                # Wait until dog can't see the ball no more, and switch to normal state
+                rospy.set_param('counter', 0)  # JUST MODIFIED
 
-        # Wait until dog can't see the ball no more, and switch to normal state
-        rospy.set_param('counter', 0)
         rospy.loginfo('back to normal, havent seen ball for a while')
         c = 'normal_command'
         return c
@@ -447,7 +449,6 @@ def main():
     rospy.set_param('ball', 2)
     rospy.set_param('counter', 0)
     rospy.set_param('rotate_camera', 0)
-    rospy.set_param('go_on_playing', 1)
 
     time.sleep(3)
 
