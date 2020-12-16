@@ -5,13 +5,13 @@ Movements are implemented with an actionlib client-server structure, and vision 
 # Simulated environment appearance
 On Gazebo we can see an arena with a man sitting on a chair, a big green ball and a dog.
 <p align="center">
-  <img height="500" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-25-55.png?raw=true "Title"">
+  <img height="400" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-25-55.png?raw=true "Title"">
 </p>
 
 ## Structure of the dog
 The dog has two wheels, a castor wheel, a fixed neck, a head able to rotate around the jaw axis, and a camera on top of the head. The wheels are controlled with a differential drive approach and the head can be rotated through a position control. 
 <p align="center">
-  <img height="500" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-26-24.png?raw=true "Title"">
+  <img height="450" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-26-24.png?raw=true "Title"">
 </p>
 
 
@@ -86,7 +86,7 @@ roslaunch exp_assignment2 gazebo_world.launch
 ```
 
 # System limitations and possible technical improvements
-The robot is very slow.  
+The robot is very slow and so is the function to look for the ball in the normal state. This means that sometimes, even though the ball is not in front of the dog, the robot doens't see it immediatley and continues moving randomly.
 
 # Author
 Name: Chiara Saporetti 
