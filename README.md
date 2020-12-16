@@ -85,8 +85,9 @@ To run it:
 roslaunch exp_assignment2 gazebo_world.launch
 ```
 
-# System limitations
-The robot moves very slowly.
-Sometimes ball moves in front of the dog exactly when image function is looking for it and the robot doesn't see it.
-When camera rotates, the opencv window freezes until rotation is complete. It also happens in switching from play to normal.
-For testing purposes, the ball moves along line x=-5 and robot moves only in (5,-5,0) when it is in normal state. 
+# System limitations and possible technical improvements
+The robot is very slow.  
+
+# Author
+Name: Chiara Saporetti 
+E-mail: chiara.saporetti@gmail.com
