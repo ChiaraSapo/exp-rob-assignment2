@@ -377,14 +377,7 @@ class MIRO_Play(smach.State):
         rotated = 0
 
         while rospy.get_param('counter') < MAX_COUNTER:
-            '''
-            time.sleep(3)
-            if rotated == 1:
-                time.sleep(10)
-
-            rotated = 0
-            '''
-
+	    # If robot has stopped in front of ball
             if rospy.get_param('rotate_camera') == 1:
 
                 rospy.loginfo('rotating camera')
@@ -418,7 +411,7 @@ class MIRO_Play(smach.State):
                 rospy.set_param('rotate_camera', 0)
 
                 # Wait until dog can't see the ball no more, and switch to normal state
-                rospy.set_param('counter', 0)  # JUST MODIFIED
+                rospy.set_param('counter', 0)  
 
         rospy.loginfo('back to normal, havent seen ball for a while')
         c = 'normal_command'
