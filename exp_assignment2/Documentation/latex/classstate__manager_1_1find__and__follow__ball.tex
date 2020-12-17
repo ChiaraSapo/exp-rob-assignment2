@@ -1,0 +1,199 @@
+\hypertarget{classstate__manager_1_1find__and__follow__ball}{}\section{state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball Class Reference}
+\label{classstate__manager_1_1find__and__follow__ball}\index{state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball@{state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball}}
+
+
+This class is used to detect and follow the green ball in the arena.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classstate__manager_1_1find__and__follow__ball_a6469e8486bd8e40cd87f77d93add522a}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\begin{DoxyCompactList}\small\item\em It initializes a publisher to the image, one to the robot velocity and one to the camera motor. \end{DoxyCompactList}\item 
+def \hyperlink{classstate__manager_1_1find__and__follow__ball_ab8dc079ef8ce39c9679ed9e5428b4e8c}{callback} (self, ros\+\_\+data)
+\begin{DoxyCompactList}\small\item\em This function is the callback function of the subscription to the camera image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries image\+\_\+pub}\hypertarget{classstate__manager_1_1find__and__follow__ball_aff00cf94531440a3c05f404e3a7157ed}{}\label{classstate__manager_1_1find__and__follow__ball_aff00cf94531440a3c05f404e3a7157ed}
+
+\item 
+{\bfseries vel\+\_\+pub}\hypertarget{classstate__manager_1_1find__and__follow__ball_acfadf373311857d7df4a48ee0bba0271}{}\label{classstate__manager_1_1find__and__follow__ball_acfadf373311857d7df4a48ee0bba0271}
+
+\item 
+{\bfseries camera\+\_\+pub}\hypertarget{classstate__manager_1_1find__and__follow__ball_a6d047759897ca99cbb11fd39f8861ab9}{}\label{classstate__manager_1_1find__and__follow__ball_a6d047759897ca99cbb11fd39f8861ab9}
+
+\item 
+{\bfseries subscriber}\hypertarget{classstate__manager_1_1find__and__follow__ball_aa9a2ffdc682841e5efdaf5a6b80ec0eb}{}\label{classstate__manager_1_1find__and__follow__ball_aa9a2ffdc682841e5efdaf5a6b80ec0eb}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class is used to detect and follow the green ball in the arena. 
+
+
+
+Definition at line 123 of file state\+\_\+manager.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball@{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball@{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self)}{__init__(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1find__and__follow__ball_a6469e8486bd8e40cd87f77d93add522a}{}\label{classstate__manager_1_1find__and__follow__ball_a6469e8486bd8e40cd87f77d93add522a}
+
+
+It initializes a publisher to the image, one to the robot velocity and one to the camera motor. 
+
+It subscribes to the camera image \begin{DoxyVerb}Initialize ros publisher, ros subscriber\end{DoxyVerb}
+ 
+
+Definition at line 127 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+127     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1find__and__follow__ball_a6469e8486bd8e40cd87f77d93add522a}{\_\_init\_\_}(self):
+128         \textcolor{stringliteral}{'''Initialize ros publisher, ros subscriber'''}
+129 
+130         \textcolor{comment}{# Init publishers}
+131         self.\hyperlink{classstate__manager_1_1find__and__follow__ball_aff00cf94531440a3c05f404e3a7157ed}{image\_pub} = rospy.Publisher(\textcolor{stringliteral}{"/output/image\_raw/compressed"},
+132                                          CompressedImage, queue\_size=1)
+133         self.\hyperlink{classstate__manager_1_1find__and__follow__ball_acfadf373311857d7df4a48ee0bba0271}{vel\_pub} = rospy.Publisher(\textcolor{stringliteral}{"/robot/cmd\_vel"},
+134                                        Twist, queue\_size=1)
+135         self.\hyperlink{classstate__manager_1_1find__and__follow__ball_a6d047759897ca99cbb11fd39f8861ab9}{camera\_pub} = rospy.Publisher(
+136             \textcolor{stringliteral}{"/robot/joint\_position\_controller/command"}, Float64, queue\_size=1)
+137 
+138         \textcolor{comment}{# Subscribed Topic}
+139         self.\hyperlink{classstate__manager_1_1find__and__follow__ball_aa9a2ffdc682841e5efdaf5a6b80ec0eb}{subscriber} = rospy.Subscriber(\textcolor{stringliteral}{"/robot/camera1/image\_raw/compressed"},
+140                                            CompressedImage, self.\hyperlink{classstate__manager_1_1find__and__follow__ball_ab8dc079ef8ce39c9679ed9e5428b4e8c}{callback},  queue\_size=1)
+141 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball@{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball}!callback@{callback}}
+\index{callback@{callback}!state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball@{state\+\_\+manager\+::find\+\_\+and\+\_\+follow\+\_\+ball}}
+\subsubsection[{\texorpdfstring{callback(self, ros\+\_\+data)}{callback(self, ros_data)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball.\+callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{ros\+\_\+data}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1find__and__follow__ball_ab8dc079ef8ce39c9679ed9e5428b4e8c}{}\label{classstate__manager_1_1find__and__follow__ball_ab8dc079ef8ce39c9679ed9e5428b4e8c}
+
+
+This function is the callback function of the subscription to the camera image. 
+
+It looks for a green contour in the image, plots a circle around it and makes the robot approach it. When the robot has the object at a specified distance, it stops, turns its head twice and again looks for the object. If the robot doesn\textquotesingle{}t see the ball for 10 iterations in a row, it sets the ros parameter counter to 10 and then waits for it to be zero again. 
+
+Definition at line 147 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+147     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1find__and__follow__ball_ab8dc079ef8ce39c9679ed9e5428b4e8c}{callback}(self, ros\_data):
+148         \textcolor{keyword}{global} counter
+149         \textcolor{keyword}{global} vel\_camera
+150         \textcolor{keyword}{global} MAX\_COUNTER
+151 
+152         \textcolor{comment}{# Read counter ros parameter: proceed only if it's not max}
+153         counter = rospy.get\_param(\textcolor{stringliteral}{'counter'})
+154         \textcolor{keywordflow}{while} counter == MAX\_COUNTER:
+155             time.sleep(1)
+156 
+157         \textcolor{keywordflow}{if} VERBOSE:
+158             print(\textcolor{stringliteral}{'received image of type: "%s"'} % ros\_data.format)
+159 
+160         \textcolor{comment}{# Convert to cv2}
+161         np\_arr = np.fromstring(ros\_data.data, np.uint8)
+162         image\_np = cv2.imdecode(np\_arr, cv2.IMREAD\_COLOR)  \textcolor{comment}{# OpenCV >= 3.0:}
+163 
+164         \textcolor{comment}{# Color limits}
+165         greenLower = (50, 50, 20)
+166         greenUpper = (70, 255, 255)
+167 
+168         \textcolor{comment}{# Create masks}
+169         blurred = cv2.GaussianBlur(image\_np, (11, 11), 0)
+170         hsv = cv2.cvtColor(blurred, cv2.COLOR\_BGR2HSV)
+171         mask = cv2.inRange(hsv, greenLower, greenUpper)
+172         mask = cv2.erode(mask, \textcolor{keywordtype}{None}, iterations=2)
+173         mask = cv2.dilate(mask, \textcolor{keywordtype}{None}, iterations=2)
+174 
+175         \textcolor{comment}{# Find contour}
+176         cnts = cv2.findContours(mask.copy(), cv2.RETR\_EXTERNAL,
+177                                 cv2.CHAIN\_APPROX\_SIMPLE)
+178         cnts = imutils.grab\_contours(cnts)
+179         center = \textcolor{keywordtype}{None}
+180 
+181         \textcolor{comment}{# Only proceed if at least one contour was found}
+182         \textcolor{keywordflow}{if} len(cnts) > 0:
+183 
+184             \textcolor{comment}{# Find the largest contour in the mask, then use it to compute the minimum enclosing circle and
+       centroid}
+185             c = max(cnts, key=cv2.contourArea)
+186             ((x, y), radius) = cv2.minEnclosingCircle(c)
+187             M = cv2.moments(c)
+188             center = (int(M[\textcolor{stringliteral}{"m10"}] / M[\textcolor{stringliteral}{"m00"}]), int(M[\textcolor{stringliteral}{"m01"}] / M[\textcolor{stringliteral}{"m00"}]))
+189 
+190             \textcolor{comment}{# Only proceed if the radius meets a minimum size}
+191             \textcolor{keywordflow}{if} radius > 10:
+192 
+193                 \textcolor{comment}{# Draw the circle and centroid on the frame, then update the list of tracked points}
+194                 cv2.circle(image\_np, (int(x), int(y)), int(radius),
+195                            (0, 255, 255), 2)
+196                 cv2.circle(image\_np, center, 5, (0, 0, 255), -1)
+197                 vel\_Play = Twist()
+198 
+199                 \textcolor{comment}{# Publish robot vel}
+200                 vel\_Play.angular.z = -0.002*(center[0]-400)
+201                 vel\_Play.linear.x = -0.01*(radius-100)
+202                 self.vel\_pub.publish(vel\_Play)
+203 
+204                 \textcolor{comment}{# When robot has arrived: turn head}
+205                 \textcolor{keywordflow}{if} vel\_Play.linear.x <= 0.05 \textcolor{keywordflow}{and} vel\_Play.angular.z <= 0.05:
+206 
+207                     \textcolor{comment}{# Stop robot completely}
+208                     vel\_Play.angular.z = 0
+209                     vel\_Play.linear.x = 0
+210                     self.vel\_pub.publish(vel\_Play)
+211 
+212                     \textcolor{comment}{# Rotate camera}
+213                     rospy.set\_param(\textcolor{stringliteral}{'rotate\_camera'}, 1)
+214 
+215             \textcolor{comment}{# Go near ball}
+216             \textcolor{keywordflow}{else}:
+217                 vel\_Play = Twist()
+218                 vel\_Play.linear.x = 0.5
+219                 self.vel\_pub.publish(vel\_Play)
+220 
+221         \textcolor{comment}{# Look for ball by turning on the spot}
+222         \textcolor{keywordflow}{else}:
+223             vel\_Play = Twist()
+224             vel\_Play.angular.z = 0.5
+225             self.vel\_pub.publish(vel\_Play)
+226 
+227             \textcolor{comment}{# Increase counter of iterations without seeing the ball}
+228             counter = counter+1
+229             rospy.set\_param(\textcolor{stringliteral}{'counter'}, counter)
+230             time.sleep(1)
+231             rospy.loginfo(\textcolor{stringliteral}{'counter incremented'})
+232 
+233             \textcolor{comment}{# If counter is max: stop}
+234             \textcolor{keywordflow}{if} counter == MAX\_COUNTER:
+235                 vel\_Play.angular.z = 0
+236                 self.vel\_pub.publish(vel\_Play)
+237                 self.subscriber.unregister()  \textcolor{comment}{# JUST ADDED}
+238 
+239         \textcolor{comment}{# Show camera image}
+240         cv2.imshow(\textcolor{stringliteral}{'window'}, image\_np)
+241         cv2.waitKey(2)
+242 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+scripts/\hyperlink{state__manager_8py}{state\+\_\+manager.\+py}\end{DoxyCompactItemize}

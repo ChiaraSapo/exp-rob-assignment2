@@ -1,0 +1,72 @@
+\hypertarget{human__commands_8py}{}\section{scripts/human\+\_\+commands.py File Reference}
+\label{human__commands_8py}\index{scripts/human\+\_\+commands.\+py@{scripts/human\+\_\+commands.\+py}}
+
+
+This node implements an actionlib client to move the ball-\/.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{human__commands_8py_a7897d0129a9e28f290c26ca1f37e9aed}{human\+\_\+commands.\+human\+\_\+client} ()
+\begin{DoxyCompactList}\small\item\em This function implements a client for the ball motion server. \end{DoxyCompactList}\item 
+def \hyperlink{human__commands_8py_a8b958e887d5a5424271cf6a9cc1fc067}{human\+\_\+commands.\+main} ()\hypertarget{human__commands_8py_a8b958e887d5a5424271cf6a9cc1fc067}{}\label{human__commands_8py_a8b958e887d5a5424271cf6a9cc1fc067}
+
+\begin{DoxyCompactList}\small\item\em Ros node that calls the client for the ball motion server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This node implements an actionlib client to move the ball-\/. 
+
+
+
+\subsection{Function Documentation}
+\index{human\+\_\+commands.\+py@{human\+\_\+commands.\+py}!human\+\_\+client@{human\+\_\+client}}
+\index{human\+\_\+client@{human\+\_\+client}!human\+\_\+commands.\+py@{human\+\_\+commands.\+py}}
+\subsubsection[{\texorpdfstring{human\+\_\+client()}{human_client()}}]{\setlength{\rightskip}{0pt plus 5cm}def human\+\_\+commands.\+human\+\_\+client (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{human__commands_8py_file_a7897d0129a9e28f290c26ca1f37e9aed}{}\label{human__commands_8py_file_a7897d0129a9e28f290c26ca1f37e9aed}
+
+
+This function implements a client for the ball motion server. 
+
+
+
+Definition at line 24 of file human\+\_\+commands.\+py.
+
+
+\begin{DoxyCode}
+24 \textcolor{keyword}{def }human\_client():
+25 
+26     client = actionlib.SimpleActionClient(
+27         \textcolor{stringliteral}{'/reaching\_goal'}, exp\_assignment2.msg.PlanningAction)
+28 
+29     \textcolor{comment}{# Waits until the action server has started up and started}
+30     \textcolor{comment}{# listening for goals.}
+31     client.wait\_for\_server()
+32 
+33     \textcolor{comment}{# Creates a goal to send to the action server.}
+34     goal = exp\_assignment2.msg.PlanningGoal()
+35     \textcolor{stringliteral}{'''}
+36 \textcolor{stringliteral}{    rospy.loginfo('print x')}
+37 \textcolor{stringliteral}{    in1 = int(input())}
+38 \textcolor{stringliteral}{    rospy.loginfo('print y')}
+39 \textcolor{stringliteral}{    in2 = int(input())}
+40 \textcolor{stringliteral}{    rospy.loginfo('print z')}
+41 \textcolor{stringliteral}{    in3 = int(input())}
+42 \textcolor{stringliteral}{    '''}
+43     goal.target\_pose.pose.position.x = random.randrange(0, 9)
+44     goal.target\_pose.pose.position.y = random.randrange(0, 9)
+45     goal.target\_pose.pose.position.z = random.choice([0, 1, 10])
+46 
+47     \textcolor{comment}{# Sends the goal to the action server.}
+48     client.send\_goal(goal)
+49 
+50     \textcolor{comment}{# Waits for the server to finish performing the action.}
+51     client.wait\_for\_result()
+52 
+53     \textcolor{keywordflow}{return} client.get\_result()
+54 
+\end{DoxyCode}

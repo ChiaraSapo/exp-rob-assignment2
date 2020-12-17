@@ -1,0 +1,144 @@
+\hypertarget{classrobot__following_1_1image__feature}{}\section{robot\+\_\+following.\+image\+\_\+feature Class Reference}
+\label{classrobot__following_1_1image__feature}\index{robot\+\_\+following.\+image\+\_\+feature@{robot\+\_\+following.\+image\+\_\+feature}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrobot__following_1_1image__feature_ad21c13434a4653ea1a64fb00a742a3ae}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\item 
+def \hyperlink{classrobot__following_1_1image__feature_af3eddd8a93175ab03651d9ea0352ab56}{callback} (self, ros\+\_\+data)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries image\+\_\+pub}\hypertarget{classrobot__following_1_1image__feature_a1246d1d342e919f2f2a00d3f8f887245}{}\label{classrobot__following_1_1image__feature_a1246d1d342e919f2f2a00d3f8f887245}
+
+\item 
+{\bfseries vel\+\_\+pub}\hypertarget{classrobot__following_1_1image__feature_a745a8de4e922b376f83df74a882d7d2a}{}\label{classrobot__following_1_1image__feature_a745a8de4e922b376f83df74a882d7d2a}
+
+\item 
+{\bfseries subscriber}\hypertarget{classrobot__following_1_1image__feature_a08612a4f188d867aca7844e1e30fb44e}{}\label{classrobot__following_1_1image__feature_a08612a4f188d867aca7844e1e30fb44e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 27 of file robot\+\_\+following.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{robot\+\_\+following\+::image\+\_\+feature@{robot\+\_\+following\+::image\+\_\+feature}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!robot\+\_\+following\+::image\+\_\+feature@{robot\+\_\+following\+::image\+\_\+feature}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self)}{__init__(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def robot\+\_\+following.\+image\+\_\+feature.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classrobot__following_1_1image__feature_ad21c13434a4653ea1a64fb00a742a3ae}{}\label{classrobot__following_1_1image__feature_ad21c13434a4653ea1a64fb00a742a3ae}
+\begin{DoxyVerb}Initialize ros publisher, ros subscriber\end{DoxyVerb}
+ 
+
+Definition at line 29 of file robot\+\_\+following.\+py.
+
+
+\begin{DoxyCode}
+29     \textcolor{keyword}{def }\hyperlink{classrobot__following_1_1image__feature_ad21c13434a4653ea1a64fb00a742a3ae}{\_\_init\_\_}(self):
+30         \textcolor{stringliteral}{'''Initialize ros publisher, ros subscriber'''}
+31         rospy.init\_node(\textcolor{stringliteral}{'image\_feature'}, anonymous=\textcolor{keyword}{True})
+32      \textcolor{comment}{# topic where we publish}
+33         self.\hyperlink{classrobot__following_1_1image__feature_a1246d1d342e919f2f2a00d3f8f887245}{image\_pub} = rospy.Publisher(\textcolor{stringliteral}{"/output/image\_raw/compressed"},
+34                                          CompressedImage, queue\_size=1)
+35         self.\hyperlink{classrobot__following_1_1image__feature_a745a8de4e922b376f83df74a882d7d2a}{vel\_pub} = rospy.Publisher(\textcolor{stringliteral}{"cmd\_vel"},
+36                                        Twist, queue\_size=1)
+37 
+38         \textcolor{comment}{# subscribed Topic}
+39         self.\hyperlink{classrobot__following_1_1image__feature_a08612a4f188d867aca7844e1e30fb44e}{subscriber} = rospy.Subscriber(\textcolor{stringliteral}{"camera1/image\_raw/compressed"},
+40                                            CompressedImage, self.\hyperlink{classrobot__following_1_1image__feature_af3eddd8a93175ab03651d9ea0352ab56}{callback},  queue\_size=1)
+41 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{robot\+\_\+following\+::image\+\_\+feature@{robot\+\_\+following\+::image\+\_\+feature}!callback@{callback}}
+\index{callback@{callback}!robot\+\_\+following\+::image\+\_\+feature@{robot\+\_\+following\+::image\+\_\+feature}}
+\subsubsection[{\texorpdfstring{callback(self, ros\+\_\+data)}{callback(self, ros_data)}}]{\setlength{\rightskip}{0pt plus 5cm}def robot\+\_\+following.\+image\+\_\+feature.\+callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{ros\+\_\+data}
+\end{DoxyParamCaption}
+)}\hypertarget{classrobot__following_1_1image__feature_af3eddd8a93175ab03651d9ea0352ab56}{}\label{classrobot__following_1_1image__feature_af3eddd8a93175ab03651d9ea0352ab56}
+\begin{DoxyVerb}Callback function of subscribed topic. 
+Here images get converted and features detected\end{DoxyVerb}
+ 
+
+Definition at line 42 of file robot\+\_\+following.\+py.
+
+
+\begin{DoxyCode}
+42     \textcolor{keyword}{def }\hyperlink{classrobot__following_1_1image__feature_af3eddd8a93175ab03651d9ea0352ab56}{callback}(self, ros\_data):
+43         \textcolor{stringliteral}{'''Callback function of subscribed topic. }
+44 \textcolor{stringliteral}{        Here images get converted and features detected'''}
+45         \textcolor{keywordflow}{if} VERBOSE:
+46             print(\textcolor{stringliteral}{'received image of type: "%s"'} % ros\_data.format)
+47 
+48         \textcolor{comment}{#### direct conversion to CV2 ####}
+49         np\_arr = np.fromstring(ros\_data.data, np.uint8)
+50         image\_np = cv2.imdecode(np\_arr, cv2.IMREAD\_COLOR)  \textcolor{comment}{# OpenCV >= 3.0:}
+51 
+52         orangeLower = (10, 50, 20)
+53         orangeUpper = (20, 255, 255)
+54 
+55         blurred = cv2.GaussianBlur(image\_np, (11, 11), 0)
+56         hsv = cv2.cvtColor(blurred, cv2.COLOR\_BGR2HSV)
+57         mask = cv2.inRange(hsv, orangeLower, orangeUpper)
+58         mask = cv2.erode(mask, \textcolor{keywordtype}{None}, iterations=2)
+59         mask = cv2.dilate(mask, \textcolor{keywordtype}{None}, iterations=2)
+60         \textcolor{comment}{#cv2.imshow('mask', mask)}
+61         cnts = cv2.findContours(mask.copy(), cv2.RETR\_EXTERNAL,
+62                                 cv2.CHAIN\_APPROX\_SIMPLE)
+63         cnts = imutils.grab\_contours(cnts)
+64         center = \textcolor{keywordtype}{None}
+65         \textcolor{comment}{# only proceed if at least one contour was found}
+66         \textcolor{keywordflow}{if} len(cnts) > 0:
+67             \textcolor{comment}{# find the largest contour in the mask, then use}
+68             \textcolor{comment}{# it to compute the minimum enclosing circle and}
+69             \textcolor{comment}{# centroid}
+70             c = max(cnts, key=cv2.contourArea)
+71             ((x, y), radius) = cv2.minEnclosingCircle(c)
+72             M = cv2.moments(c)
+73             center = (int(M[\textcolor{stringliteral}{"m10"}] / M[\textcolor{stringliteral}{"m00"}]), int(M[\textcolor{stringliteral}{"m01"}] / M[\textcolor{stringliteral}{"m00"}]))
+74 
+75             \textcolor{comment}{# only proceed if the radius meets a minimum size}
+76             \textcolor{keywordflow}{if} radius > 10:
+77                 \textcolor{comment}{# draw the circle and centroid on the frame,}
+78                 \textcolor{comment}{# then update the list of tracked points}
+79                 cv2.circle(image\_np, (int(x), int(y)), int(radius),
+80                            (0, 255, 255), 2)
+81                 cv2.circle(image\_np, center, 5, (0, 0, 255), -1)
+82                 vel = Twist()
+83                 vel.angular.z = -0.002*(center[0]-400)
+84                 vel.linear.x = -0.01*(radius-100)
+85                 self.vel\_pub.publish(vel)
+86             \textcolor{keywordflow}{else}:
+87                 vel = Twist()
+88                 vel.linear.x = 0.5
+89                 self.vel\_pub.publish(vel)
+90 
+91         \textcolor{keywordflow}{else}:
+92             vel = Twist()
+93             vel.angular.z = 0.5
+94             self.vel\_pub.publish(vel)
+95 
+96         cv2.imshow(\textcolor{stringliteral}{'window'}, image\_np)
+97         cv2.waitKey(2)
+98 
+99         \textcolor{comment}{# self.subscriber.unregister()}
+100 
+101 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/chiara/catkin\+\_\+ws/src/bridge\+\_\+example/scripts/robot\+\_\+following.\+py\end{DoxyCompactItemize}

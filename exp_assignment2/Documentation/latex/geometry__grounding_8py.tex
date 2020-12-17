@@ -1,0 +1,103 @@
+\hypertarget{geometry__grounding_8py}{}\section{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/geometry\+\_\+grounding.py File Reference}
+\label{geometry__grounding_8py}\index{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/geometry\+\_\+grounding.\+py@{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/geometry\+\_\+grounding.\+py}}
+
+
+This node transforms a command into two x,y coordinates.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{geometry__grounding_8py_abe23a4d32f35af8deec29b84f78a24c7}{geometry\+\_\+grounding.\+callback} (data)
+\begin{DoxyCompactList}\small\item\em Callback function for the user command. \end{DoxyCompactList}\item 
+def \hyperlink{geometry__grounding_8py_ae9666217ac1f4a16955b41483e9509dd}{geometry\+\_\+grounding.\+geometry\+\_\+grounding} ()
+\begin{DoxyCompactList}\small\item\em Ros node that subscribes to the targcommand topic and publishes on the target\+\_\+pos topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries geometry\+\_\+grounding.\+pub} = rospy.\+Publisher(\textquotesingle{}target\+\_\+pos\textquotesingle{}, Int64\+Multi\+Array, queue\+\_\+size=10)\hypertarget{geometry__grounding_8py_a52edd4f829a32b4fc5520c65722b6a2c}{}\label{geometry__grounding_8py_a52edd4f829a32b4fc5520c65722b6a2c}
+
+\item 
+{\bfseries geometry\+\_\+grounding.\+pos\+\_\+to\+\_\+send} = Int64\+Multi\+Array()\hypertarget{geometry__grounding_8py_a63cc7d43336fc5be100da89f1aab8cb9}{}\label{geometry__grounding_8py_a63cc7d43336fc5be100da89f1aab8cb9}
+
+\item 
+{\bfseries geometry\+\_\+grounding.\+data}\hypertarget{geometry__grounding_8py_a013cbe0a0fa13f327299c89344dcbda4}{}\label{geometry__grounding_8py_a013cbe0a0fa13f327299c89344dcbda4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This node transforms a command into two x,y coordinates. 
+
+
+
+\subsection{Function Documentation}
+\index{geometry\+\_\+grounding.\+py@{geometry\+\_\+grounding.\+py}!callback@{callback}}
+\index{callback@{callback}!geometry\+\_\+grounding.\+py@{geometry\+\_\+grounding.\+py}}
+\subsubsection[{\texorpdfstring{callback(data)}{callback(data)}}]{\setlength{\rightskip}{0pt plus 5cm}def geometry\+\_\+grounding.\+callback (
+\begin{DoxyParamCaption}
+\item[{}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{geometry__grounding_8py_file_abe23a4d32f35af8deec29b84f78a24c7}{}\label{geometry__grounding_8py_file_abe23a4d32f35af8deec29b84f78a24c7}
+
+
+Callback function for the user command. 
+
+If the command is a \char`\"{}go to x y\char`\"{} command, it sets the target position as x,y. If the command is a \char`\"{}go home\char`\"{} command, it sets the target postion as home\+\_\+posx,home\+\_\+posy. If the command is a \char`\"{}go rand\char`\"{} command, it sets the target position as random coordinates. It then publishes the target position. 
+
+Definition at line 24 of file geometry\+\_\+grounding.\+py.
+
+
+\begin{DoxyCode}
+24 \textcolor{keyword}{def }callback(data):
+25 
+26     input\_string = str(data.data)
+27 
+28     \textcolor{comment}{# Save positions in the command, if any}
+29     my\_command = [int(s) \textcolor{keywordflow}{for} s \textcolor{keywordflow}{in} input\_string.split() \textcolor{keywordflow}{if} s.isdigit()]
+30 
+31     \textcolor{comment}{# If command is a "go to" command}
+32     \textcolor{keywordflow}{if} my\_command:
+33         pos\_to\_send.data = [my\_command[0], my\_command[1]]
+34 
+35     \textcolor{comment}{# If command is a "go home" command}
+36     \textcolor{keywordflow}{elif} input\_string == \textcolor{stringliteral}{"go\_home"}:
+37         pos\_to\_send.data = [rospy.get\_param(
+38             \textcolor{stringliteral}{'home\_posx'}), rospy.get\_param(\textcolor{stringliteral}{'home\_posy'})]
+39 
+40     \textcolor{comment}{# If command is a "go rand" command}
+41     \textcolor{keywordflow}{elif} input\_string == \textcolor{stringliteral}{"go\_rand"}:
+42         pos\_to\_send.data = [random.randrange(10), random.randrange(10)]
+43 
+44     \textcolor{comment}{# Publish}
+45     pub.publish(pos\_to\_send)
+46 
+\end{DoxyCode}
+\index{geometry\+\_\+grounding.\+py@{geometry\+\_\+grounding.\+py}!geometry\+\_\+grounding@{geometry\+\_\+grounding}}
+\index{geometry\+\_\+grounding@{geometry\+\_\+grounding}!geometry\+\_\+grounding.\+py@{geometry\+\_\+grounding.\+py}}
+\subsubsection[{\texorpdfstring{geometry\+\_\+grounding()}{geometry_grounding()}}]{\setlength{\rightskip}{0pt plus 5cm}def geometry\+\_\+grounding.\+geometry\+\_\+grounding (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{geometry__grounding_8py_file_ae9666217ac1f4a16955b41483e9509dd}{}\label{geometry__grounding_8py_file_ae9666217ac1f4a16955b41483e9509dd}
+
+
+Ros node that subscribes to the targcommand topic and publishes on the target\+\_\+pos topic. 
+
+
+
+Definition at line 48 of file geometry\+\_\+grounding.\+py.
+
+
+\begin{DoxyCode}
+48 \textcolor{keyword}{def }\hyperlink{namespacegeometry__grounding}{geometry\_grounding}():
+49 
+50     rospy.init\_node(\textcolor{stringliteral}{'geometry\_grounding'}, anonymous=\textcolor{keyword}{True})
+51 
+52     rospy.Subscriber(\textcolor{stringliteral}{"command"}, String, callback)
+53 
+54     rospy.spin()
+55     \textcolor{keywordflow}{pass}
+56 
+57 
+\end{DoxyCode}

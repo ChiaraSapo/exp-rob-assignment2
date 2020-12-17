@@ -1,5 +1,9 @@
 #! /usr/bin/env python
 
+## @go_to_point_robot.py
+## @brief This node implements an actionlib server to move the dog.
+
+
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Point, Pose

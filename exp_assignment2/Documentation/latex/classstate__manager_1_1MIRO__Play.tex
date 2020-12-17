@@ -1,0 +1,167 @@
+\hypertarget{classstate__manager_1_1MIRO__Play}{}\section{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play Class Reference}
+\label{classstate__manager_1_1MIRO__Play}\index{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play@{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play}}
+
+
+Play state of the smach machine.  
+
+
+
+
+Inheritance diagram for state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{classstate__manager_1_1MIRO__Play__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{classstate__manager_1_1MIRO__Play__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classstate__manager_1_1MIRO__Play_a863ae1958460cf6bf33faaba597fc5a2}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\begin{DoxyCompactList}\small\item\em Init function for smach machine play state. \end{DoxyCompactList}\item 
+def \hyperlink{classstate__manager_1_1MIRO__Play_a781db4be4fcbb313c46097a8fdf06275}{execute} (self, userdata)
+\begin{DoxyCompactList}\small\item\em Smach machine state play actions\+: find and follow the ball. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries camera\+\_\+pub}\hypertarget{classstate__manager_1_1MIRO__Play_a72c307cf462ab1c9e0844c84df600078}{}\label{classstate__manager_1_1MIRO__Play_a72c307cf462ab1c9e0844c84df600078}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Play state of the smach machine. 
+
+
+
+Definition at line 366 of file state\+\_\+manager.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self)}{__init__(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1MIRO__Play_a863ae1958460cf6bf33faaba597fc5a2}{}\label{classstate__manager_1_1MIRO__Play_a863ae1958460cf6bf33faaba597fc5a2}
+
+
+Init function for smach machine play state. 
+
+
+
+Definition at line 369 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+369     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1MIRO__Play_a863ae1958460cf6bf33faaba597fc5a2}{\_\_init\_\_}(self):
+370 
+371         smach.State.\_\_init\_\_(self,
+372                              outcomes=[\textcolor{stringliteral}{'normal\_command'}])
+373 
+374         self.\hyperlink{classstate__manager_1_1MIRO__Play_a72c307cf462ab1c9e0844c84df600078}{camera\_pub} = rospy.Publisher(\textcolor{stringliteral}{"/robot/joint\_position\_controller/command"},
+375                                           Float64, queue\_size=1)
+376 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play}!execute@{execute}}
+\index{execute@{execute}!state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Play}}
+\subsubsection[{\texorpdfstring{execute(self, userdata)}{execute(self, userdata)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play.\+execute (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{userdata}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1MIRO__Play_a781db4be4fcbb313c46097a8fdf06275}{}\label{classstate__manager_1_1MIRO__Play_a781db4be4fcbb313c46097a8fdf06275}
+
+
+Smach machine state play actions\+: find and follow the ball. 
+
+If robot reaches the ball and stops\+: rotate camera. If robot can not see ball for a while (counter=M\+A\+X\+\_\+\+C\+O\+U\+N\+T\+ER)\+: switch to normal state. \begin{DoxyReturn}{Returns}
+c\+: command to switch between states. 
+\end{DoxyReturn}
+
+
+Definition at line 381 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+381     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1MIRO__Play_a781db4be4fcbb313c46097a8fdf06275}{execute}(self, userdata):
+382 
+383         \textcolor{keyword}{global} subscriberPLAY
+384         \textcolor{keyword}{global} MAX\_COUNTER
+385 
+386         time.sleep(3)
+387         rospy.loginfo(\textcolor{stringliteral}{'play: chase ball'})
+388 
+389         \textcolor{comment}{# Find and follow green ball}
+390         ic = \hyperlink{classstate__manager_1_1find__and__follow__ball}{find\_and\_follow\_ball}()
+391         rotated = 0
+392 
+393         \textcolor{keywordflow}{while} rospy.get\_param(\textcolor{stringliteral}{'counter'}) < MAX\_COUNTER:
+394             \textcolor{stringliteral}{'''}
+395 \textcolor{stringliteral}{            time.sleep(3)}
+396 \textcolor{stringliteral}{            if rotated == 1:}
+397 \textcolor{stringliteral}{                time.sleep(10)}
+398 \textcolor{stringliteral}{}
+399 \textcolor{stringliteral}{            rotated = 0}
+400 \textcolor{stringliteral}{            '''}
+401 
+402             \textcolor{keywordflow}{if} rospy.get\_param(\textcolor{stringliteral}{'rotate\_camera'}) == 1:
+403 
+404                 rospy.loginfo(\textcolor{stringliteral}{'rotating camera'})
+405                 vel\_camera.data = 0
+406 
+407                 \textcolor{comment}{# Turn head left}
+408                 \textcolor{keywordflow}{while} vel\_camera.data < 0.5:
+409                     vel\_camera.data = vel\_camera.data + 0.1
+410                     self.camera\_pub.publish(vel\_camera)
+411                     time.sleep(1)
+412 
+413                 \textcolor{comment}{# Turn head to center}
+414                 \textcolor{keywordflow}{while} vel\_camera.data > 0.01:
+415                     vel\_camera.data = vel\_camera.data - 0.1
+416                     self.camera\_pub.publish(vel\_camera)
+417                     time.sleep(1)
+418 
+419                 \textcolor{comment}{# Turn head right}
+420                 \textcolor{keywordflow}{while} vel\_camera.data > 0.5:
+421                     vel\_camera.data = vel\_camera.data - 0.1
+422                     self.camera\_pub.publish(vel\_camera)
+423                     time.sleep(1)
+424 
+425                 \textcolor{comment}{# Turn head to center}
+426                 \textcolor{keywordflow}{while} vel\_camera.data < 0.01:
+427                     vel\_camera.data = vel\_camera.data + 0.1
+428                     self.camera\_pub.publish(vel\_camera)
+429                     time.sleep(1)
+430 
+431                 \textcolor{comment}{# Rotation finished}
+432                 rospy.set\_param(\textcolor{stringliteral}{'rotate\_camera'}, 0)
+433 
+434                 \textcolor{comment}{# Wait until dog can't see the ball no more, and switch to normal state}
+435                 rospy.set\_param(\textcolor{stringliteral}{'counter'}, 0)  \textcolor{comment}{# JUST MODIFIED}
+436 
+437         rospy.loginfo(\textcolor{stringliteral}{'back to normal, havent seen ball for a while'})
+438         c = \textcolor{stringliteral}{'normal\_command'}
+439         \textcolor{keywordflow}{return} c
+440 
+441 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+scripts/\hyperlink{state__manager_8py}{state\+\_\+manager.\+py}\end{DoxyCompactItemize}

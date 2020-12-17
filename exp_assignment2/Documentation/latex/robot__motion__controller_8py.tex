@@ -1,0 +1,163 @@
+\hypertarget{robot__motion__controller_8py}{}\section{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/robot\+\_\+motion\+\_\+controller.py File Reference}
+\label{robot__motion__controller_8py}\index{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/robot\+\_\+motion\+\_\+controller.\+py@{/home/chiara/catkin\+\_\+ws/src/\+Exp\+\_\+lab\+\_\+assignments/src/robot\+\_\+motion\+\_\+controller.\+py}}
+
+
+This node allows to move the robot from the current to the target position.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{robot__motion__controller_8py_a6038e0cb69366ce0dafac80cb503376f}{robot\+\_\+motion\+\_\+controller.\+Euclidian\+Distance} (x\+\_\+goal, y\+\_\+goal, x\+\_\+real, y\+\_\+real)\hypertarget{robot__motion__controller_8py_a6038e0cb69366ce0dafac80cb503376f}{}\label{robot__motion__controller_8py_a6038e0cb69366ce0dafac80cb503376f}
+
+\begin{DoxyCompactList}\small\item\em Calculates the euclidean distance between two given points. \end{DoxyCompactList}\item 
+def \hyperlink{robot__motion__controller_8py_a8564b51b831f2d1c55ad3bd4a31247c7}{robot\+\_\+motion\+\_\+controller.\+odom\+\_\+callback} (data)
+\begin{DoxyCompactList}\small\item\em Callback function for the robot position. \end{DoxyCompactList}\item 
+def \hyperlink{robot__motion__controller_8py_a6a302edf6b5bd907aed41704daafa3ca}{robot\+\_\+motion\+\_\+controller.\+traj\+\_\+callback} (data)
+\begin{DoxyCompactList}\small\item\em Callback function for the target position. \end{DoxyCompactList}\item 
+def \hyperlink{robot__motion__controller_8py_ab80ca81f32b04e27c9ac9151175e0ebd}{robot\+\_\+motion\+\_\+controller.\+robot\+\_\+motion\+\_\+controller} ()
+\begin{DoxyCompactList}\small\item\em Ros node that subscribes to the target\+\_\+pos and odom topic and publishes on the cmd\+\_\+vel topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries robot\+\_\+motion\+\_\+controller.\+pub} = rospy.\+Publisher(\textquotesingle{}/cmd\+\_\+vel\textquotesingle{}, Twist, queue\+\_\+size=10)\hypertarget{robot__motion__controller_8py_a5edac46801203b4d2bd49dac5b4e8fe5}{}\label{robot__motion__controller_8py_a5edac46801203b4d2bd49dac5b4e8fe5}
+
+\item 
+{\bfseries robot\+\_\+motion\+\_\+controller.\+vel} = Twist()\hypertarget{robot__motion__controller_8py_a7495177073219dc409d6194edaabe740}{}\label{robot__motion__controller_8py_a7495177073219dc409d6194edaabe740}
+
+\item 
+{\bfseries robot\+\_\+motion\+\_\+controller.\+x}\hypertarget{robot__motion__controller_8py_af0a211fe92cffd2db98e396531ab4342}{}\label{robot__motion__controller_8py_af0a211fe92cffd2db98e396531ab4342}
+
+\item 
+{\bfseries robot\+\_\+motion\+\_\+controller.\+y}\hypertarget{robot__motion__controller_8py_a99855c398204569c62ac371e449ec6cd}{}\label{robot__motion__controller_8py_a99855c398204569c62ac371e449ec6cd}
+
+\item 
+{\bfseries robot\+\_\+motion\+\_\+controller.\+z}\hypertarget{robot__motion__controller_8py_ab3d45739426d06269dfb5c1dfe6339ee}{}\label{robot__motion__controller_8py_ab3d45739426d06269dfb5c1dfe6339ee}
+
+\item 
+int {\bfseries robot\+\_\+motion\+\_\+controller.\+number} = 1\hypertarget{robot__motion__controller_8py_ab4fff29d3a9e57f17c9e6f65ece81e5f}{}\label{robot__motion__controller_8py_ab4fff29d3a9e57f17c9e6f65ece81e5f}
+
+\item 
+int {\bfseries robot\+\_\+motion\+\_\+controller.\+curr\+\_\+x} = 0\hypertarget{robot__motion__controller_8py_a257fd8660767a6cd3859701a2d3a465e}{}\label{robot__motion__controller_8py_a257fd8660767a6cd3859701a2d3a465e}
+
+\item 
+int {\bfseries robot\+\_\+motion\+\_\+controller.\+curr\+\_\+y} = 0\hypertarget{robot__motion__controller_8py_a7514e78cf73440261b96faf67b3ff929}{}\label{robot__motion__controller_8py_a7514e78cf73440261b96faf67b3ff929}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This node allows to move the robot from the current to the target position. 
+
+
+
+\subsection{Function Documentation}
+\index{robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}!odom\+\_\+callback@{odom\+\_\+callback}}
+\index{odom\+\_\+callback@{odom\+\_\+callback}!robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}}
+\subsubsection[{\texorpdfstring{odom\+\_\+callback(data)}{odom_callback(data)}}]{\setlength{\rightskip}{0pt plus 5cm}def robot\+\_\+motion\+\_\+controller.\+odom\+\_\+callback (
+\begin{DoxyParamCaption}
+\item[{}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{robot__motion__controller_8py_file_a8564b51b831f2d1c55ad3bd4a31247c7}{}\label{robot__motion__controller_8py_file_a8564b51b831f2d1c55ad3bd4a31247c7}
+
+
+Callback function for the robot position. 
+
+
+
+Definition at line 42 of file robot\+\_\+motion\+\_\+controller.\+py.
+
+
+\begin{DoxyCode}
+42 \textcolor{keyword}{def }odom\_callback(data):
+43 
+44     \textcolor{keyword}{global} curr\_x
+45     \textcolor{keyword}{global} curr\_y
+46 
+47     curr\_x = data.pose.pose.position.x
+48     curr\_y = data.pose.pose.position.y
+49 
+\end{DoxyCode}
+\index{robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}!robot\+\_\+motion\+\_\+controller@{robot\+\_\+motion\+\_\+controller}}
+\index{robot\+\_\+motion\+\_\+controller@{robot\+\_\+motion\+\_\+controller}!robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}}
+\subsubsection[{\texorpdfstring{robot\+\_\+motion\+\_\+controller()}{robot_motion_controller()}}]{\setlength{\rightskip}{0pt plus 5cm}def robot\+\_\+motion\+\_\+controller.\+robot\+\_\+motion\+\_\+controller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{robot__motion__controller_8py_file_ab80ca81f32b04e27c9ac9151175e0ebd}{}\label{robot__motion__controller_8py_file_ab80ca81f32b04e27c9ac9151175e0ebd}
+
+
+Ros node that subscribes to the target\+\_\+pos and odom topic and publishes on the cmd\+\_\+vel topic. 
+
+
+
+Definition at line 89 of file robot\+\_\+motion\+\_\+controller.\+py.
+
+
+\begin{DoxyCode}
+89 \textcolor{keyword}{def }\hyperlink{namespacerobot__motion__controller}{robot\_motion\_controller}():
+90 
+91     rospy.init\_node(\textcolor{stringliteral}{'robot\_motion\_controlller'}, anonymous=\textcolor{keyword}{True})
+92 
+93     rospy.Subscriber(\textcolor{stringliteral}{"target\_pos"}, Int64MultiArray, traj\_callback)
+94 
+95     rospy.Subscriber(\textcolor{stringliteral}{'odom'}, Odometry, odom\_callback)
+96 
+97     rospy.spin()
+98 
+99     \textcolor{keywordflow}{pass}
+100 
+101 
+\end{DoxyCode}
+\index{robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}!traj\+\_\+callback@{traj\+\_\+callback}}
+\index{traj\+\_\+callback@{traj\+\_\+callback}!robot\+\_\+motion\+\_\+controller.\+py@{robot\+\_\+motion\+\_\+controller.\+py}}
+\subsubsection[{\texorpdfstring{traj\+\_\+callback(data)}{traj_callback(data)}}]{\setlength{\rightskip}{0pt plus 5cm}def robot\+\_\+motion\+\_\+controller.\+traj\+\_\+callback (
+\begin{DoxyParamCaption}
+\item[{}]{data}
+\end{DoxyParamCaption}
+)}\hypertarget{robot__motion__controller_8py_file_a6a302edf6b5bd907aed41704daafa3ca}{}\label{robot__motion__controller_8py_file_a6a302edf6b5bd907aed41704daafa3ca}
+
+
+Callback function for the target position. 
+
+It computes the velocity to send to the cmd\+\_\+vel topic, by considering an omniwheel robot. when the robot has arrived at desired position, publishes vel=0 and sets the \char`\"{}arrived\char`\"{} and current robot position parameters. 
+
+Definition at line 54 of file robot\+\_\+motion\+\_\+controller.\+py.
+
+
+\begin{DoxyCode}
+54 \textcolor{keyword}{def }traj\_callback(data):
+55 
+56     \textcolor{keyword}{global} curr\_x
+57     \textcolor{keyword}{global} curr\_y
+58     \textcolor{keyword}{global} number
+59 
+60     target\_pos = data.data
+61     target\_x = target\_pos[0]
+62     target\_y = target\_pos[1]
+63 
+64     \textcolor{keywordflow}{while} EuclidianDistance(target\_x, target\_y, curr\_x, curr\_y) >= 0.001:
+65 
+66         \textcolor{comment}{# omniwheel robot}
+67         vel.linear.x = (target\_x-curr\_x)
+68         vel.linear.y = (target\_y-curr\_y)
+69 
+70         \textcolor{comment}{# Publish}
+71         pub.publish(vel)
+72 
+73     \textcolor{comment}{# omniwheel robot}
+74     vel.linear.x = 0
+75     vel.linear.y = 0
+76 
+77     \textcolor{comment}{# Publish}
+78     pub.publish(vel)
+79 
+80     \textcolor{comment}{# Set command parameter}
+81     rospy.set\_param(\textcolor{stringliteral}{'all'}, [target\_x, target\_y, curr\_x, curr\_y, number])
+82     rospy.set\_param(\textcolor{stringliteral}{'arrived'}, 1)
+83 
+84     number = number+1
+85 
+86     time.sleep(2)
+87 
+\end{DoxyCode}

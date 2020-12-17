@@ -1,4 +1,8 @@
 #! /usr/bin/env python
+
+## @go_to_point_ball.py
+## @brief This node implements an actionlib server to move the ball.
+
 # import ros stuff
 import rospy
 from sensor_msgs.msg import LaserScan

@@ -1,0 +1,143 @@
+\hypertarget{classstate__manager_1_1MIRO__Normal}{}\section{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal Class Reference}
+\label{classstate__manager_1_1MIRO__Normal}\index{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal@{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal}}
+
+
+Normal state of the smach machine.  
+
+
+
+
+Inheritance diagram for state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classstate__manager_1_1MIRO__Normal__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{classstate__manager_1_1MIRO__Normal__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classstate__manager_1_1MIRO__Normal_a36a3ee79119b52beeebd6ee8c04d9501}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self)
+\begin{DoxyCompactList}\small\item\em Init function for smach machine normal state. \end{DoxyCompactList}\item 
+def \hyperlink{classstate__manager_1_1MIRO__Normal_a4133da39ee6ec170623fc1d457b0729a}{execute} (self, userdata)
+\begin{DoxyCompactList}\small\item\em Smach machine state normal actions\+: In a loop\+: Calls \hyperlink{state__manager_8py_ae0155422a2f60744ea3acf5181c7c75a}{move\+\_\+dog()} function to go to a random position, then subscribes to the camera image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Normal state of the smach machine. 
+
+
+
+Definition at line 302 of file state\+\_\+manager.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self)}{__init__(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1MIRO__Normal_a36a3ee79119b52beeebd6ee8c04d9501}{}\label{classstate__manager_1_1MIRO__Normal_a36a3ee79119b52beeebd6ee8c04d9501}
+
+
+Init function for smach machine normal state. 
+
+
+
+Definition at line 305 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+305     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1MIRO__Normal_a36a3ee79119b52beeebd6ee8c04d9501}{\_\_init\_\_}(self):
+306 
+307         smach.State.\_\_init\_\_(self,
+308                              outcomes=[\textcolor{stringliteral}{'sleep\_command'}, \textcolor{stringliteral}{'play\_command'}])
+309 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\index{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal}!execute@{execute}}
+\index{execute@{execute}!state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal@{state\+\_\+manager\+::\+M\+I\+R\+O\+\_\+\+Normal}}
+\subsubsection[{\texorpdfstring{execute(self, userdata)}{execute(self, userdata)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal.\+execute (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{userdata}
+\end{DoxyParamCaption}
+)}\hypertarget{classstate__manager_1_1MIRO__Normal_a4133da39ee6ec170623fc1d457b0729a}{}\label{classstate__manager_1_1MIRO__Normal_a4133da39ee6ec170623fc1d457b0729a}
+
+
+Smach machine state normal actions\+: In a loop\+: Calls \hyperlink{state__manager_8py_ae0155422a2f60744ea3acf5181c7c75a}{move\+\_\+dog()} function to go to a random position, then subscribes to the camera image. 
+
+It reads the ball ros parameter\+: if it\textquotesingle{}s set to 2 it waits. If it\textquotesingle{}s set to 0, it moves the robot to another random position. If it\textquotesingle{}s set to 1 it switches to play state. At the end of the loop\+: it switches to sleep state. \begin{DoxyReturn}{Returns}
+c\+: command to switch between states. 
+\end{DoxyReturn}
+
+
+Definition at line 317 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+317     \textcolor{keyword}{def }\hyperlink{classstate__manager_1_1MIRO__Normal_a4133da39ee6ec170623fc1d457b0729a}{execute}(self, userdata):
+318 
+319         \textcolor{keyword}{global} subscriberNORM, LOOPS
+320 
+321         \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, LOOPS):
+322 
+323             \textcolor{comment}{# Go rand (then set rand)}
+324             time.sleep(3)
+325             rospy.loginfo(\textcolor{stringliteral}{'normal: going rand'})
+326             \textcolor{comment}{# ([random.randrange(0, 9),random.randrange(0, 9), 0])}
+327             move\_dog([-5, 5, 0])
+328 
+329             \textcolor{comment}{# Look for ball}
+330             time.sleep(3)
+331             rospy.loginfo(\textcolor{stringliteral}{'normal: looking for ball'})
+332             subscriberNORM = rospy.Subscriber(\textcolor{stringliteral}{"camera1/image\_raw/compressed"},
+333                                               CompressedImage, find\_ball,  queue\_size=1)
+334 
+335             \textcolor{keywordflow}{while} rospy.get\_param(\textcolor{stringliteral}{'ball'}) == 2:
+336                 time.sleep(1)
+337 
+338             ball = rospy.get\_param(\textcolor{stringliteral}{'ball'})
+339             rospy.set\_param(\textcolor{stringliteral}{'ball'}, 2)
+340 
+341             \textcolor{comment}{# Case 0: no ball --> continue in normal state}
+342             \textcolor{keywordflow}{if} ball == 0:
+343                 rospy.loginfo(
+344                     \textcolor{stringliteral}{'normal: i see no ball, i will continue doing my things'})
+345 
+346             \textcolor{comment}{# Case 1: ball --> go in play state}
+347             \textcolor{keywordflow}{elif} ball == 1:
+348                 rospy.loginfo(
+349                     \textcolor{stringliteral}{'normal: i do see ball, i will chase it: set play'})
+350 
+351                 c = \textcolor{stringliteral}{'play\_command'}
+352                 \textcolor{keywordflow}{return} c
+353 
+354             \textcolor{comment}{# Case err: ball wasn't set yet}
+355             \textcolor{keywordflow}{else}:
+356                 rospy.loginfo(\textcolor{stringliteral}{'normal: ball was not set yet'})
+357                 time.sleep(3)
+358 
+359         c = \textcolor{stringliteral}{'sleep\_command'}
+360         \textcolor{keywordflow}{return} c
+361 
+362 
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+scripts/\hyperlink{state__manager_8py}{state\+\_\+manager.\+py}\end{DoxyCompactItemize}

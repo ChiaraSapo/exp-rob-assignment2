@@ -1,0 +1,247 @@
+\hypertarget{state__manager_8py}{}\section{scripts/state\+\_\+manager.py File Reference}
+\label{state__manager_8py}\index{scripts/state\+\_\+manager.\+py@{scripts/state\+\_\+manager.\+py}}
+
+
+This node implements a smach state machine to simulate a dog that can sleep, play and wander around.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classstate__manager_1_1find__and__follow__ball}{state\+\_\+manager.\+find\+\_\+and\+\_\+follow\+\_\+ball}
+\begin{DoxyCompactList}\small\item\em This class is used to detect and follow the green ball in the arena. \end{DoxyCompactList}\item 
+class \hyperlink{classstate__manager_1_1MIRO__Sleep}{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Sleep}
+\begin{DoxyCompactList}\small\item\em Sleep state of the smach machine. \end{DoxyCompactList}\item 
+class \hyperlink{classstate__manager_1_1MIRO__Normal}{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Normal}
+\begin{DoxyCompactList}\small\item\em Normal state of the smach machine. \end{DoxyCompactList}\item 
+class \hyperlink{classstate__manager_1_1MIRO__Play}{state\+\_\+manager.\+M\+I\+R\+O\+\_\+\+Play}
+\begin{DoxyCompactList}\small\item\em Play state of the smach machine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{state__manager_8py_a7d93967d1043bce896aa79f6cc86705c}{state\+\_\+manager.\+find\+\_\+ball} (ros\+\_\+data)
+\begin{DoxyCompactList}\small\item\em This function is the callback for the normal state. \end{DoxyCompactList}\item 
+def \hyperlink{state__manager_8py_ae0155422a2f60744ea3acf5181c7c75a}{state\+\_\+manager.\+move\+\_\+dog} (target)
+\begin{DoxyCompactList}\small\item\em This function is a client for the robot motion server. \end{DoxyCompactList}\item 
+def \hyperlink{state__manager_8py_a8663809bc92b964a1202b8888447a326}{state\+\_\+manager.\+main} ()
+\begin{DoxyCompactList}\small\item\em Ros node that implements a state machine with three states\+: sleep, play, normal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bfseries state\+\_\+manager.\+V\+E\+R\+B\+O\+SE} = False\hypertarget{state__manager_8py_a5a249e9a671c8d36b4b06d0dcdc781cd}{}\label{state__manager_8py_a5a249e9a671c8d36b4b06d0dcdc781cd}
+
+\item 
+int {\bfseries state\+\_\+manager.\+L\+O\+O\+PS} = 10\hypertarget{state__manager_8py_afae998fce8866b30be88b687c8614b28}{}\label{state__manager_8py_afae998fce8866b30be88b687c8614b28}
+
+\item 
+{\bfseries state\+\_\+manager.\+vel\+\_\+camera} = Float64()\hypertarget{state__manager_8py_a3ae273110e1343ff46f3849c1eb032ec}{}\label{state__manager_8py_a3ae273110e1343ff46f3849c1eb032ec}
+
+\item 
+{\bfseries state\+\_\+manager.\+vel\+\_\+\+Norm} = Twist()\hypertarget{state__manager_8py_a0db004eae20055ab41211069e714a2a3}{}\label{state__manager_8py_a0db004eae20055ab41211069e714a2a3}
+
+\item 
+int {\bfseries state\+\_\+manager.\+M\+A\+X\+\_\+\+C\+O\+U\+N\+T\+ER} = 25\hypertarget{state__manager_8py_a79442c99330b551fecab75402ef950a2}{}\label{state__manager_8py_a79442c99330b551fecab75402ef950a2}
+
+\item 
+int {\bfseries state\+\_\+manager.\+S\+E\+A\+R\+C\+H\+\_\+\+F\+O\+R\+\_\+\+B\+A\+LL} = 15\hypertarget{state__manager_8py_a465127cd3ad4da94ec0432a4b512e9ed}{}\label{state__manager_8py_a465127cd3ad4da94ec0432a4b512e9ed}
+
+\item 
+{\bfseries state\+\_\+manager.\+vel\+\_\+pub} = rospy.\+Publisher(\char`\"{}/roboy/cmd\+\_\+vel\char`\"{}, Twist, queue\+\_\+size=1)\hypertarget{state__manager_8py_affa389297adfafddfa44cde69dfd3c2d}{}\label{state__manager_8py_affa389297adfafddfa44cde69dfd3c2d}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This node implements a smach state machine to simulate a dog that can sleep, play and wander around. 
+
+
+
+\subsection{Function Documentation}
+\index{state\+\_\+manager.\+py@{state\+\_\+manager.\+py}!find\+\_\+ball@{find\+\_\+ball}}
+\index{find\+\_\+ball@{find\+\_\+ball}!state\+\_\+manager.\+py@{state\+\_\+manager.\+py}}
+\subsubsection[{\texorpdfstring{find\+\_\+ball(ros\+\_\+data)}{find_ball(ros_data)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+find\+\_\+ball (
+\begin{DoxyParamCaption}
+\item[{}]{ros\+\_\+data}
+\end{DoxyParamCaption}
+)}\hypertarget{state__manager_8py_file_a7d93967d1043bce896aa79f6cc86705c}{}\label{state__manager_8py_file_a7d93967d1043bce896aa79f6cc86705c}
+
+
+This function is the callback for the normal state. 
+
+It checks if the ball is visible from the camera. If it is\+: it sets the ros parameter ball=1. If it isn\textquotesingle{}t\+: it sets the ros parameter ball=0. 
+
+Definition at line 52 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+52 \textcolor{keyword}{def }find\_ball(ros\_data):
+53 
+54     \textcolor{keyword}{global} subscriberNORM, vel\_Norm, SEARCH\_FOR\_BALL
+55 
+56     time.sleep(1)
+57 
+58     \textcolor{comment}{# Init velocity}
+59     vel\_Norm.linear.x = 0
+60     vel\_Norm.linear.y = 0
+61     vel\_Norm.linear.z = 0
+62     vel\_Norm.angular.x = 0
+63     vel\_Norm.angular.y = 0
+64     vel\_Norm.angular.z = 0
+65 
+66     \textcolor{comment}{# rospy.loginfo('entered img NORM fnct')}
+67 
+68     \textcolor{comment}{# Convert to cv2}
+69     np\_arr = np.fromstring(ros\_data.data, np.uint8)
+70     image\_np = cv2.imdecode(np\_arr, cv2.IMREAD\_COLOR)
+71 
+72     \textcolor{comment}{# Color limits}
+73     greenLower = (50, 50, 20)
+74     greenUpper = (70, 255, 255)
+75 
+76     \textcolor{comment}{# Create masks}
+77     blurred = cv2.GaussianBlur(image\_np, (11, 11), 0)
+78     hsv = cv2.cvtColor(blurred, cv2.COLOR\_BGR2HSV)
+79     mask = cv2.inRange(hsv, greenLower, greenUpper)
+80     mask = cv2.erode(mask, \textcolor{keywordtype}{None}, iterations=2)
+81     mask = cv2.dilate(mask, \textcolor{keywordtype}{None}, iterations=2)
+82 
+83     \textcolor{comment}{# Find contour}
+84     cnts = cv2.findContours(mask.copy(), cv2.RETR\_EXTERNAL,
+85                             cv2.CHAIN\_APPROX\_SIMPLE)
+86     cnts = imutils.grab\_contours(cnts)
+87     center = \textcolor{keywordtype}{None}
+88 
+89     \textcolor{comment}{# Only proceed if at least one contour was found}
+90     \textcolor{keywordflow}{if} len(cnts) > 0:
+91         rospy.loginfo(\textcolor{stringliteral}{'img NORM fnct: ball'})
+92         \textcolor{comment}{# Ball was found}
+93         rospy.set\_param(\textcolor{stringliteral}{'ball'}, 1)
+94         time.sleep(1)
+95         subscriberNORM.unregister()
+96 
+97     \textcolor{keywordflow}{else}:
+98         \textcolor{comment}{# Search again in loop}
+99         \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, SEARCH\_FOR\_BALL):
+100             vel\_Norm.angular.z = 0.2
+101             vel\_pub.publish(vel\_Norm)
+102             time.sleep(1)
+103             cnts = cv2.findContours(mask.copy(), cv2.RETR\_EXTERNAL,
+104                                     cv2.CHAIN\_APPROX\_SIMPLE)
+105             cnts = imutils.grab\_contours(cnts)
+106             center = \textcolor{keywordtype}{None}
+107 
+108             \textcolor{keywordflow}{if} len(cnts) > 0:
+109                 rospy.loginfo(\textcolor{stringliteral}{'img NORM fnct: ball after turning'})
+110                 \textcolor{comment}{# Ball was found}
+111                 rospy.set\_param(\textcolor{stringliteral}{'ball'}, 1)
+112                 time.sleep(1)
+113                 subscriberNORM.unregister()
+114 
+115         rospy.loginfo(\textcolor{stringliteral}{'img NORM fnct: no ball'})
+116         \textcolor{comment}{# Ball was not found}
+117         rospy.set\_param(\textcolor{stringliteral}{'ball'}, 0)
+118         time.sleep(1)
+119         subscriberNORM.unregister()
+120 
+121 
+\end{DoxyCode}
+\index{state\+\_\+manager.\+py@{state\+\_\+manager.\+py}!main@{main}}
+\index{main@{main}!state\+\_\+manager.\+py@{state\+\_\+manager.\+py}}
+\subsubsection[{\texorpdfstring{main()}{main()}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{state__manager_8py_file_a8663809bc92b964a1202b8888447a326}{}\label{state__manager_8py_file_a8663809bc92b964a1202b8888447a326}
+
+
+Ros node that implements a state machine with three states\+: sleep, play, normal. 
+
+It also initializes the ball and counter parameters. 
+
+Definition at line 446 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+446 \textcolor{keyword}{def }main():
+447 
+448     rospy.init\_node(\textcolor{stringliteral}{'state\_manager'})
+449 
+450     \textcolor{comment}{# Init ball ros param to 2 and counter ros param to 0.}
+451     rospy.set\_param(\textcolor{stringliteral}{'ball'}, 2)
+452     rospy.set\_param(\textcolor{stringliteral}{'counter'}, 0)
+453     rospy.set\_param(\textcolor{stringliteral}{'rotate\_camera'}, 0)
+454 
+455     time.sleep(3)
+456 
+457     \textcolor{comment}{# Create a SMACH state machine}
+458     sm = smach.StateMachine(outcomes=[\textcolor{stringliteral}{'container\_interface'}])
+459 
+460     with sm:
+461         \textcolor{comment}{# Add states to the container}
+462         smach.StateMachine.add(\textcolor{stringliteral}{'SLEEP'}, MIRO\_Sleep(),
+463                                transitions=\{\textcolor{stringliteral}{'normal\_command'}: \textcolor{stringliteral}{'NORMAL'}\})
+464         smach.StateMachine.add(\textcolor{stringliteral}{'NORMAL'}, MIRO\_Normal(),
+465                                transitions=\{\textcolor{stringliteral}{'sleep\_command'}: \textcolor{stringliteral}{'SLEEP'},
+466                                             \textcolor{stringliteral}{'play\_command'}: \textcolor{stringliteral}{'PLAY'}\})
+467         smach.StateMachine.add(\textcolor{stringliteral}{'PLAY'}, MIRO\_Play(),
+468                                transitions=\{\textcolor{stringliteral}{'normal\_command'}: \textcolor{stringliteral}{'NORMAL'}\})
+469 
+470     \textcolor{comment}{# Create and start the introspection server for visualization}
+471     sis = smach\_ros.IntrospectionServer(\textcolor{stringliteral}{'server\_name'}, sm, \textcolor{stringliteral}{'/SM\_ROOT'})
+472     sis.start()
+473 
+474     \textcolor{comment}{# Execute the state machine}
+475     outcome = sm.execute()
+476 
+477     \textcolor{comment}{# Wait for ctrl-c to stop the application}
+478     rospy.spin()
+479     cv2.destroyAllWindows()
+480     sis.stop()
+481 
+482 
+\end{DoxyCode}
+\index{state\+\_\+manager.\+py@{state\+\_\+manager.\+py}!move\+\_\+dog@{move\+\_\+dog}}
+\index{move\+\_\+dog@{move\+\_\+dog}!state\+\_\+manager.\+py@{state\+\_\+manager.\+py}}
+\subsubsection[{\texorpdfstring{move\+\_\+dog(target)}{move_dog(target)}}]{\setlength{\rightskip}{0pt plus 5cm}def state\+\_\+manager.\+move\+\_\+dog (
+\begin{DoxyParamCaption}
+\item[{}]{target}
+\end{DoxyParamCaption}
+)}\hypertarget{state__manager_8py_file_ae0155422a2f60744ea3acf5181c7c75a}{}\label{state__manager_8py_file_ae0155422a2f60744ea3acf5181c7c75a}
+
+
+This function is a client for the robot motion server. 
+
+It sends the desired position. 
+
+Definition at line 246 of file state\+\_\+manager.\+py.
+
+
+\begin{DoxyCode}
+246 \textcolor{keyword}{def }move\_dog(target):
+247 
+248     time.sleep(3)
+249 
+250     client = actionlib.SimpleActionClient(
+251         \textcolor{stringliteral}{'/robot\_reaching\_goal'}, exp\_assignment2.msg.PlanningAction)
+252 
+253     client.wait\_for\_server()
+254 
+255     rospy.loginfo(\textcolor{stringliteral}{'Going to %d %d %d'}, target[0], target[1], target[2])
+256 
+257     \textcolor{comment}{# Creates a goal to send to the action server.}
+258     goal = exp\_assignment2.msg.PlanningGoal()
+259     goal.target\_pose.pose.position.x = target[0]
+260     goal.target\_pose.pose.position.y = target[1]
+261     goal.target\_pose.pose.position.z = target[2]
+262 
+263     \textcolor{comment}{# Sends the goal to the action server.}
+264     client.send\_goal(goal)
+265 
+266     \textcolor{comment}{# Waits for the server to finish performing the action.}
+267     client.wait\_for\_result()
+268 
+269     rospy.loginfo(\textcolor{stringliteral}{'arrived, exiting dog fnct'})
+270 
+271     \textcolor{keywordflow}{return} client.get\_result()
+272 
+\end{DoxyCode}
