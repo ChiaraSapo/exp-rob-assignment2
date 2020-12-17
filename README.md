@@ -14,7 +14,7 @@ In particular, the dog has two wheels, a castor wheel, a fixed neck, a head able
 </p>
 
 
-# software architecture and state diagrams
+# Software architecture and state diagrams
 The architecture is based on four ROS nodes that implement:
 - a smach state machine to simulate sleep, normal and play states,
 - a server to move the ball,
@@ -69,7 +69,7 @@ Play: the dog follows the ball around. When it reaches it, it turns the head to 
 - function find_ball: This is the callback function of the normal state's subscriber to the camera image. It looks for the ball though the camera. If it sees it, it sets a ros parameter so that the state transitions to play. If it doesn't see it, the same parameter is set to a different value so that the state remains in normal.
 - function move_dog: This function implements a client to move the dog to desired location. It has as input the desired location and as output the result of the action.
 
-# Instalation and running procedure:
+# Installation and running procedure:
 Download the package in your_catkin_ws/src folder. To install it:
 ```sh
 cd "Your catkin workspace"/src/exp_assignment2
