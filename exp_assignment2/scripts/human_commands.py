@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-## @file human_commands.py
-## @brief This node implements an actionlib client to move the ball-
+# @file human_commands.py
+# @brief This node implements an actionlib client to move the ball-
 
 
 import rospy
@@ -18,7 +18,7 @@ import exp_assignment2.msg
 import rospy
 import time
 
-## This function implements a client for the ball motion server.
+# This function implements a client for the ball motion server.
 
 
 def human_client():
@@ -33,9 +33,9 @@ def human_client():
     # Creates a goal to send to the action server.
     goal = exp_assignment2.msg.PlanningGoal()
 
-    goal.target_pose.pose.position.x = random.randrange(0, 9) # -5
-    goal.target_pose.pose.position.y = random.randrange(0, 9) # random.choice([0,-1,1])
-    goal.target_pose.pose.position.z = random.choice([0, 1])
+    goal.target_pose.pose.position.x = random.randrange(0, 9)  # -5
+    goal.target_pose.pose.position.y = random.randrange(0, 9)  # 2
+    goal.target_pose.pose.position.z = random.choice([0, 1, 10])
 
     # Sends the goal to the action server.
     client.send_goal(goal)
@@ -45,7 +45,7 @@ def human_client():
 
     return client.get_result()
 
-## Ros node that calls the client for the ball motion server
+# Ros node that calls the client for the ball motion server
 
 
 def main():

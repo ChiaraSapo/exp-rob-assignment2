@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-## @file state_manager.py
-## @brief This node implements a smach state machine to simulate a dog that can sleep, play and wander around.
+# @file state_manager.py
+# @brief This node implements a smach state machine to simulate a dog that can sleep, play and wander around.
 
 import roslib
 import rospy
@@ -32,7 +32,6 @@ from std_msgs.msg import Float64, UInt32
 VERBOSE = False
 LOOPS = 2
 vel_camera = Float64()
-vel_Norm = Twist()
 MAX_COUNTER = 25
 SEARCH_FOR_BALL = 35
 global counter
@@ -44,14 +43,16 @@ global subscriberPLAY
 vel_pub = rospy.Publisher("/robot/cmd_vel", Twist, queue_size=1)
 
 
-## This function is the callback for the normal state.
-## It checks if the ball is visible from the camera. If it is: it sets the ros parameter ball=1.
-## If it  isn't: it sets the ros parameter ball=0.
+# This function is the callback for the normal state.
+# It checks if the ball is visible from the camera. If it is: it sets the ros parameter ball=1.
+# If it  isn't: it sets the ros parameter ball=0.
 
 
 def find_ball(ros_data):
 
     global subscriberNORM, vel_Norm, SEARCH_FOR_BALL
+
+    vel_Norm = Twist()
 
     # Init velocity
     vel_Norm.linear.x = 0
@@ -86,27 +87,25 @@ def find_ball(ros_data):
 
     # Only proceed if at least one contour was found
     if len(cnts) > 0:
-        rospy.loginfo('callback norm fnct: ball')
         # Ball was found
+        rospy.loginfo('ball was seen!')
         rospy.set_param('ball', 1)
         subscriberNORM.unregister()
 
     else:
-
         vel_Norm.angular.z = 0.3
         vel_pub.publish(vel_Norm)
 
         # Ball was not found
-        rospy.loginfo('callback norm fnct: no ball')
         rospy.set_param('ball', 0)
         subscriberNORM.unregister()
 
 
-## This class is used to detect and follow the green ball in the arena.
+# This class is used to detect and follow the green ball in the arena.
 class find_and_follow_ball:
 
-    ## It initializes a publisher to the image, one to the robot velocity and one to the camera motor.
-    ## It subscribes to the camera image
+    # It initializes a publisher to the image, one to the robot velocity and one to the camera motor.
+    # It subscribes to the camera image
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
 
@@ -122,15 +121,25 @@ class find_and_follow_ball:
         self.subscriber = rospy.Subscriber("/robot/camera1/image_raw/compressed",
                                            CompressedImage, self.callback,  queue_size=1)
 
-    ## This function is the callback function of the subscription to the camera image.
-    ## It looks for a green contour in the image, plots a circle around it and makes the robot approach it.
-    ## When the robot has the object at a specified distance, it stops, turns its head twice and again looks for the object.
-    ## If the robot doesn't see the ball for 10 iterations in a row, it sets the ros parameter counter to 10 and then waits
-    ## for it to be zero again.
+    # This function is the callback function of the subscription to the camera image.
+    # It looks for a green contour in the image, plots a circle around it and makes the robot approach it.
+    # When the robot has the object at a specified distance, it stops, turns its head twice and again looks for the object.
+    # If the robot doesn't see the ball for 10 iterations in a row, it sets the ros parameter counter to 10 and then waits
+    # for it to be zero again.
     def callback(self, ros_data):
         global counter
         global vel_camera
         global MAX_COUNTER
+
+        vel_Play = Twist()
+
+        # Init velocity
+        vel_Play.linear.x = 0
+        vel_Play.linear.y = 0
+        vel_Play.linear.z = 0
+        vel_Play.angular.x = 0
+        vel_Play.angular.y = 0
+        vel_Play.angular.z = 0
 
         # Read counter ros parameter: proceed only if it's not max
         counter = rospy.get_param('counter')
@@ -177,7 +186,6 @@ class find_and_follow_ball:
                 cv2.circle(image_np, (int(x), int(y)), int(radius),
                            (0, 255, 255), 2)
                 cv2.circle(image_np, center, 5, (0, 0, 255), -1)
-                vel_Play = Twist()
 
                 # Publish robot vel
                 vel_Play.angular.z = -0.002*(center[0]-400)
@@ -211,7 +219,6 @@ class find_and_follow_ball:
             counter = counter+1
             rospy.set_param('counter', counter)
             time.sleep(1)
-            rospy.loginfo('counter incremented')
 
             # If counter is max: stop
             if counter == MAX_COUNTER:
@@ -223,7 +230,7 @@ class find_and_follow_ball:
         cv2.imshow('window', image_np)
         cv2.waitKey(2)
 
-## This function is a client for the robot motion server. It sends the desired position.
+# This function is a client for the robot motion server. It sends the desired position.
 
 
 def move_dog(target):
@@ -253,50 +260,50 @@ def move_dog(target):
 
     return client.get_result()
 
-## Sleep state of the smach machine.
+# Sleep state of the smach machine.
 
 
 class MIRO_Sleep(smach.State):
 
-    ## Init function for smach machine sleep state.
+    # Init function for smach machine sleep state.
     def __init__(self):
 
         smach.State.__init__(self,
                              outcomes=['normal_command'])
 
-    ## Smach machine state sleep actions:
-    ## Calls dog() function to move towards the kennel, waits some seconds and exits state.
-    ## @return c: command to switch between states.
+    # Smach machine state sleep actions:
+    # Calls dog() function to move towards the kennel, waits some seconds and exits state.
+    # @return c: command to switch between states.
     def execute(self, userdata):
 
         # Go home and sleep
         time.sleep(3)
         rospy.loginfo('sleep: go home')
-        #move_dog([0, 0, 0])
+        # move_dog([0, 0, 0])
         time.sleep(5)
 
         # Change state
         c = 'normal_command'
         return c
 
-## Normal state of the smach machine.
+# Normal state of the smach machine.
 
 
 class MIRO_Normal(smach.State):
 
-    ## Init function for smach machine normal state.
+    # Init function for smach machine normal state.
     def __init__(self):
 
         smach.State.__init__(self,
                              outcomes=['sleep_command', 'play_command'])
 
-    ## Smach machine state normal actions:
-    ## In a loop:
-    ## Calls move_dog() function to go to a random position, then subscribes to the camera image. It reads
-    ## the ball ros parameter: if it's set to 2 it waits. If it's set to 0, it moves the robot to another
-    ## random position. If it's set to 1 it switches to play state.
-    ## At the end of the loop: it switches to sleep state.
-    ## @return c: command to switch between states.
+    # Smach machine state normal actions:
+    # In a loop:
+    # Calls move_dog() function to go to a random position, then subscribes to the camera image. It reads
+    # the ball ros parameter: if it's set to 2 it waits. If it's set to 0, it moves the robot to another
+    # random position. If it's set to 1 it switches to play state.
+    # At the end of the loop: it switches to sleep state.
+    # @return c: command to switch between states.
     def execute(self, userdata):
 
         global subscriberNORM, LOOPS
@@ -331,6 +338,7 @@ class MIRO_Normal(smach.State):
                 # Case 0: no ball --> continue in normal state
                 if ball == 0:
                     rospy.loginfo('normal: no ball: keep rotating')
+                    time.sleep(2)
 
                 # Case 1: ball --> go in play state
                 elif ball == 1:
@@ -346,7 +354,7 @@ class MIRO_Normal(smach.State):
         return c
 
 
-## Play state of the smach machine.
+# Play state of the smach machine.
 
 
 class MIRO_Play(smach.State):
@@ -360,10 +368,10 @@ class MIRO_Play(smach.State):
         self.camera_pub = rospy.Publisher("/robot/joint_position_controller/command",
                                           Float64, queue_size=1)
 
-    ## Smach machine state play actions: find and follow the ball.
-    ## If robot reaches the ball and stops: rotate camera.
-    ## If robot can not see ball for a while (counter=MAX_COUNTER): switch to normal state.
-    ## @return c: command to switch between states.
+    # Smach machine state play actions: find and follow the ball.
+    # If robot reaches the ball and stops: rotate camera.
+    # If robot can not see ball for a while (counter=MAX_COUNTER): switch to normal state.
+    # @return c: command to switch between states.
     def execute(self, userdata):
 
         global subscriberPLAY
@@ -374,52 +382,48 @@ class MIRO_Play(smach.State):
 
         # Find and follow green ball
         ic = find_and_follow_ball()
-        rotated = 0
 
         while rospy.get_param('counter') < MAX_COUNTER:
-	    # If robot has stopped in front of ball
+            # If robot has stopped in front of ball
             if rospy.get_param('rotate_camera') == 1:
 
                 rospy.loginfo('rotating camera')
                 vel_camera.data = 0
 
-                # Turn head left
-                while vel_camera.data < 0.5:
+                # CORRECTED ERROR
+
+                for turn in range(0, 5):
                     vel_camera.data = vel_camera.data + 0.1
                     self.camera_pub.publish(vel_camera)
                     time.sleep(1)
 
-                # Turn head to center
-                while vel_camera.data > 0.01:
+                for turn2 in range(0, 10):
                     vel_camera.data = vel_camera.data - 0.1
                     self.camera_pub.publish(vel_camera)
                     time.sleep(1)
 
-                # Turn head right
-                while vel_camera.data > 0.5:
-                    vel_camera.data = vel_camera.data - 0.1
-                    self.camera_pub.publish(vel_camera)
-                    time.sleep(1)
-
-                # Turn head to center
-                while vel_camera.data < 0.01:
+                for turn3 in range(0, 5):
                     vel_camera.data = vel_camera.data + 0.1
                     self.camera_pub.publish(vel_camera)
                     time.sleep(1)
+
+                vel_camera.data = 0
+                self.camera_pub.publish(vel_camera)
+                time.sleep(5)
 
                 # Rotation finished
                 rospy.set_param('rotate_camera', 0)
 
                 # Wait until dog can't see the ball no more, and switch to normal state
-                rospy.set_param('counter', 0)  
+                rospy.set_param('counter', 0)
 
         rospy.loginfo('back to normal, havent seen ball for a while')
         c = 'normal_command'
         return c
 
 
-## Ros node that implements a state machine with three states: sleep, play, normal.
-## It also initializes the ball and counter parameters.
+# Ros node that implements a state machine with three states: sleep, play, normal.
+# It also initializes the ball and counter parameters.
 
 
 def main():

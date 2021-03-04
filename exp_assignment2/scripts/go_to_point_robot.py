@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
-## @go_to_point_robot.py
-## @brief This node implements an actionlib server to move the dog.
+# @go_to_point_robot.py
+# @brief This node implements an actionlib server to move the dog.
 
 
 import rospy
@@ -179,7 +179,6 @@ def planning(goal):
         rate.sleep()
     if success:
         rospy.loginfo('Goal: Succeeded!')
-        result = 1
         act_s.set_succeeded(result)
 
 # Ros node that subscribes to odom and creates a simple actionlib server to move the robot
