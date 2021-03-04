@@ -61,12 +61,11 @@ Ros node that implements a smach state machine with three different states:
 - Play: the dog follows the ball around. When it reaches it, it turns the head to the left and to the right. When it can't see the ball for a few seconds, the the state transitions to normal.
 
 #### Internal classes and functions:
-- class find_follow_ball: This class initializes the publishers and then subscribes to the camera image. It looks for the ball through the camera: if it is visible, the robot approaches it and waits a few moments to turn the robot's head. If the ball is not visible the robot rotates on the spot to look for it. After a few moments without seeing the ball, a ros parameter is set so that the state transitions to normal and the callback function is set to sleep. 
+- class find_follow_ball: This class is instatiated by the play state of the state machine. initializes the publishers and then subscribes to the camera image. It looks for the ball through the camera: if it is visible, the robot approaches it and waits a few moments to turn the robot's head. If the ball is not visible the robot rotates on the spot to look for it. After a few moments without seeing the ball, a ros parameter is set so that the state transitions to normal and the callback function is set to sleep. 
 <p align="center">
   <img height="400" width="500" src="https://github.com/ChiaraSapo/exp-rob-assignment2/blob/master/exp_assignment2/images/Screenshot%20from%202020-12-12%2017-26-38.png?raw=true "Title"">
 </p>
-
-- function find_ball: This is the callback function of the normal state's subscriber to the camera image. It looks for the ball though the camera. If it sees it, it sets a ros parameter so that the state transitions to play. If it doesn't see it, the same parameter is set to a different value so that the state remains in normal.
+- function find_ball: This is the callback function of the normal state's subscriber to the camera image. It looks for the ball though the camera. If it sees it, it sets a ros parameter so that the state transition to play ('ball'=1). If it doesn't see it, the same parameter is set to a different value so that the state remains in normal ('ball'=0).
 - function move_dog: This function implements a client to move the dog to desired location. It has as input the desired location and as output the result of the action.
 
 # Installation and running procedure:
@@ -84,7 +83,7 @@ roslaunch exp_assignment2 gazebo_world.launch
 # System limitations and possible technical improvements
 During normal state, if the ball moves in front of the robot when it has already entered the function to look for the ball, the robot doesn't see it and continues moving randomly. The code should be optimized to make it more quick.
 
-When changing from play state to normal state, the OpenCV window freezes and starts again only when going back to play state. A possible future improvement could be to keep the window open and working the whole time, so to have continuous assessment to the robot's vision.
+When changing from play state to normal state, the OpenCV window freezes and starts again only when going back to play state. A future improvement should be to keep the window open and working the whole time, so to have continuous assessment to the robot's vision.
 
 # Author
 Name: Chiara Saporetti 
