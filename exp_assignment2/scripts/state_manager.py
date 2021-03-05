@@ -279,7 +279,7 @@ class MIRO_Sleep(smach.State):
         # Go home and sleep
         time.sleep(3)
         rospy.loginfo('sleep: go home')
-        # move_dog([0, 0, 0])
+        move_dog([0, 0, 0])
         time.sleep(5)
 
         # Change state
@@ -314,8 +314,6 @@ class MIRO_Normal(smach.State):
             # Go rand (then set rand)
             time.sleep(3)
             rospy.loginfo('normal: going rand')
-
-            # ([-5, 5, 0])
             move_dog([random.randrange(0, 9), random.randrange(0, 9), 0])
 
             # Loop to look for ball
@@ -343,7 +341,7 @@ class MIRO_Normal(smach.State):
                 # Case 1: ball --> go in play state
                 elif ball == 1:
                     rospy.loginfo(
-                        'normal: i do see ball, i will chase it: set play')
+                        'normal: i do see ball: set play')
                     c = 'play_command'
                     return c
 
